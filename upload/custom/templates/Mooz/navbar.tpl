@@ -85,7 +85,7 @@
   <div class="container">
       <center>
           <i class="variable123123123">
-              <imgc src="{if isset($MZ_GS.WEB_LOGO)}{$MZ_GS.WEB_LOGO}{else}{$TEMPLATE.path}img/logo.png{/if}" {if ($LOGO_ANIMADO gte animated)}class="{$LOGO_ANIMADO}"{/if} style="width: 220px;">
+              <img src="{if isset($MZ_GS.WEB_LOGO)}{$MZ_GS.WEB_LOGO}{else}{$TEMPLATE.path}img/logo.png{/if}" {if ($MZ_ANIMACIONES gte 1)}class="pulse"{/if} style="width: 220px;">
           </i>
       </center>
   </div>
@@ -174,5 +174,6 @@
 {/if}
 
 </div>
+
 
 

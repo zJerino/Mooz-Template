@@ -7,7 +7,7 @@
 
 function AparecerMensajeID(id) {
 	var madresquepedoid = id;
-	$(`#chatMessage-${madresquepedoid} .actions`).toggleClass('d-block', 'd-none')
+	$(`#MensajeChat-${madresquepedoid} .actions`).toggleClass('d-block', 'd-none')
 }
 
 
@@ -41,7 +41,7 @@ var chatbox = {
 	`,
 
 		itemTemplate: `
-				<div id="MensajeChat-{messageId}" onclick="AparecerMesajeID({messageId})">
+				<div id="MensajeChat-{messageId}" onclick="AparecerMensajeID({messageId})">
                     <div class="messagerow" id="estructuramensaje">
                     	<div class="messagecol-1" style=" display: inline-flex; align-items: center; padding: 0 0.2rem 0.2rem 0;">
                         	<div class="image">
@@ -53,9 +53,10 @@ var chatbox = {
                         </div>
                         {messageContent}
 					</div>
-				</div>
+					
 				<div id="chatMessage-{messageId}" class="actions d-none">
-					{messageActions}
+				{messageActions}
+			</div>
 				</div>
 							`,
 	
