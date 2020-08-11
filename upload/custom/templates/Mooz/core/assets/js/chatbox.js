@@ -84,7 +84,3 @@ var chatbox = {
 
 }
 
-		
-		setInterval(() => {
-			twemoji.parse(document.body);
-		}, 500);

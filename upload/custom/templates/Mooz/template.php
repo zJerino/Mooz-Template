@@ -215,13 +215,16 @@ class Mooz_Template extends TemplateBase {
             ));
         }
 
-        $MoozOptions['ANI'] = 'true';
+        $MoozOptions['ANI'] = $Mooz_General['WEB_ANI'];
 
-        if ($MoozOptions['ANI'] == 'true') {
+        if ($MoozOptions['ANI'] == true) {
             $this->addCSSFiles(array(
                 $template['assets'] . 'css/animate.css' => array('async' => "yes"),
             ));
         }
+        
+        $smarty->assign('MZ_ANIMACIONES', $MoozOptions['ANI']);
+
         $this->addJSFiles(array(
             $template['assets'] . 'js/jquery.min.js' => array(),
             $template['assets'] . 'js/popper.min.js' => array(),

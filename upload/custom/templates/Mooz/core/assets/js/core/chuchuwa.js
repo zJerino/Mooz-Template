@@ -330,3 +330,9 @@ function loadingspan1() {
 }
 
 loadingspan1();
+	
+setInterval(() => {
+	if(twemoji){
+		twemoji.parse(document.body);
+	}
+}, 500);
