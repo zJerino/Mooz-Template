@@ -85,7 +85,7 @@
   <div class="container">
       <center>
           <i class="variable123123123">
-              <img class="lazy" data-src="{if isset($MZ_GS.WEB_LOGO)}{$MZ_GS.WEB_LOGO}{else}{$TEMPLATE.path}img/logo.png{/if}" data-srcset="{if isset($MZ_GS.WEB_LOGO)}{$MZ_GS.WEB_LOGO}{else}{$TEMPLATE.path}img/logo.png{/if}" {if ($LOGO_ANIMADO gte animated)}class="{$LOGO_ANIMADO}"{/if} style="width: 220px;">
+              <imgc src="{if isset($MZ_GS.WEB_LOGO)}{$MZ_GS.WEB_LOGO}{else}{$TEMPLATE.path}img/logo.png{/if}" {if ($LOGO_ANIMADO gte animated)}class="{$LOGO_ANIMADO}"{/if} style="width: 220px;">
           </i>
       </center>
   </div>
@@ -134,7 +134,7 @@
           </div>
       </div>
   {/if}
-                
+<a href="" hidden="hidden"></a>
 {if isset($MAINTENANCE_ENABLED)}
 <div class="alert alert-danger alert-dismissible" role="alert">
   <button class="close" data-dismiss="alert" aria-label="Close">

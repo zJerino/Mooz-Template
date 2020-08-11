@@ -1,72 +1,80 @@
+
 /**
  *	CHATBOX MODULE
  *	By Xemah | https://xemah.com
- *	For Mooz Template
+ *
 **/
+
+function AparecerMensajeID(id) {
+	var madresquepedoid = id;
+	$(`#chatMessage-${madresquepedoid} .actions`).toggleClass('d-block', 'd-none')
+}
+
+
 var chatbox = {
+
 	template: `
-		<div class="card card-news" id="chatbox" style="border-radius: 5px;">
-			<div class="card-body mb-2 rounded ">
+				<div class="card card-news" id="chatbox">
 				<div class="card-header">
-					<span class="card-title">
+					<div class="card-title">
 						{chatboxTitle}
-					</span>
+					</div>
 				</div>
-				<div id="ChatMensajes">
-					{chatboxLoading}
-				</div>
-				<div class="col" id="ChatEscribir">
-					<form action="" class="disabled" id="chatForm" autocomplete="off">
-						<div class="input-group">
-							<div class="custom-file">
-								<input type="text" id="chatInput" class="form-control" placeholder="{chatboxMessagePlaceholder}">      
-							</div>
-							<div class="input-group-append">
-								<button class="btn btn-primary" type="submit"><i class="fas fa-angle-right"></i></button>
-							</div>
+                    <div class="card-body">
+                        <div id="chatbox-log">
+							`+ chatboxLoading.replace('...', '') +`<span id="loading"></span>
 						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+						<hr>
+						<div class="w-100">
+							<form action="" class="disabled" id="chatForm" autocomplete="off">
+								<div class="d-flex">
+									<input type="text" id="COMENTARIO" class="form-control mr-2" placeholder="{chatboxMessagePlaceholder}" />
+									<button type="submit" class="btn btn-primary" id="chatInputSubmit">
+										<i class="fa fa-share"></i>
+									</button>
+									
+								</div>
+							</form>
+						</div>
+                    </div>
+                </div>
 	`,
 
-	itemTemplate: `		
-		<div class="d-flex p-2 bd-highlight" id="mensaje-1">
-			<avatar class="mr-2">
-				<img src="{authorAvatar}" alt="{authorUsername}">
-			</avatar>
-			<div class="align-self-center" >
-				<div class="d-flex align-items-start">
-				<a class="text-muted" href="{authorProfile}" style="{authorStyle}">{authorUsername}</a> &nbsp; &bull; &nbsp; <span class="text-muted" data-toggle="tooltip" data-html="true" title="{messageTimeFull}">{messageTime}</span>
+		itemTemplate: `
+				<div id="MensajeChat-{messageId}" onclick="AparecerMesajeID({messageId})">
+                    <div class="messagerow" id="estructuramensaje">
+                    	<div class="messagecol-1" style=" display: inline-flex; align-items: center; padding: 0 0.2rem 0.2rem 0;">
+                        	<div class="image">
+                            	<img class="chip-img" loading="lazy" src="{authorAvatar}" style="" srcset="{authorAvatar}">
+                            </div>
+                            <div class="name">
+                            	<a href="{authorProfile}" style="{authorStyle}">{authorUsername} </a>:  
+                            </div>
+                        </div>
+                        {messageContent}
+					</div>
 				</div>
-				<div class="d-flex align-items-end">
-					{messageContent}
+				<div id="chatMessage-{messageId}" class="actions d-none">
+					{messageActions}
 				</div>
-			</div>
-		</div>
-	`,
+							`,
 	
 	elements: {
 		containerTop: '#XemahIsgod',
 		containerBottom: '#XemahIsgod',
 		root: '#chatbox',
-		log: '#chatbox #ChatMensajes',
-		form: '#chatbox #ChatEscribir',
-		input: '#chatbox #chatInput'
+		log: '#chatbox #chatbox-log',
+		form: '#chatbox #chatForm',
+		input: '#chatbox #COMENTARIO'
 	},
 
 	style: `
 		#chatbox {
 			margin-bottom: 1.5rem;
 		}
-		#chatbox #chatLog {
-			height: 250px;
-			max-width: 100%;
-			overflow-y: scroll;
-		}
 		#chatbox #chatForm.disabled {
 			opacity: 0.75;
+			display: none
 		}
 		#chatbox #chatForm.disabled * {
 			pointer-events: none;
@@ -74,3 +82,8 @@ var chatbox = {
 	`
 
 }
+
+		
+		setInterval(() => {
+			twemoji.parse(document.body);
+		}, 500);

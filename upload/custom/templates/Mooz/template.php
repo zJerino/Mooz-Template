@@ -5,6 +5,7 @@
  *	License: MIT
  *	Cache d158baba76918cba404ac4ed3da2b2ff345227cd.cache
  */
+
 $URL_ASDASDA = (isset($_GET['route']) ? rtrim($_GET['route'], '/') : '/');
 /* [~~~~~~(ERRORES)~~~~~~] */
 // Inspeccion
@@ -200,10 +201,7 @@ class Mooz_Template extends TemplateBase {
         parent::__construct($template['name'], $template['version'], $template['nl_version'], $template['author']);
         $this->addCSSFiles(array(
             $template['assets'] . 'css/material.css' => array('async' => "yes"),
-            $template['assets'] . 'css/bootstrap-grid.min.css' => array('async' => "yes"),
             $template['assets'] . 'css/all.min.css' => array('async' => "yes"),
-            $template['assets'] . 'css/toastr.min.css' => array(),
-            $template['assets'] . 'semantic-ui/transition.min.css' => array(),
             $template['assets'] . 'semantic-ui/popup.min.css' => array(),
             $NamelessMC['core']['assets'] . 'plugins\tinymce\plugins\spoiler\css\spoiler.css' => array('async' => "yes"),
             //Temp
@@ -212,9 +210,6 @@ class Mooz_Template extends TemplateBase {
         $this->_settings = ROOT_PATH . '/custom/templates/Mooz/core/panel/index.php';
         
         if ($Mooz_General['WEB_FUE'] == '1') {
-            $this->addCSSFiles(array(
-                $template['assets'] . 'css/failsafe.css' => array('async' => "yes"),
-            ));
             $this->addJSFiles(array(
                 $template['assets'] . 'js/failsafe.js' => array('async' => "yes"),
             ));
@@ -230,15 +225,12 @@ class Mooz_Template extends TemplateBase {
         $this->addJSFiles(array(
             $template['assets'] . 'js/jquery.min.js' => array(),
             $template['assets'] . 'js/popper.min.js' => array(),
-            $template['assets'] . 'js/jquery.cookie.js' => array(),
             $template['assets'] . 'js/bootstrap.min.js' => array(),
             $template['assets'] . 'js/material.js' => array(),
-            $template['assets'] . 'semantic-ui/transition.min.js' => array(),
             $template['assets'] . 'semantic-ui/popup.min.js' => array(),
             $NamelessMC['core']['assets'] . 'plugins\tinymce\plugins\spoiler\js\spoiler.js' => array(),
-            $template['assets'] . 'js/toastr.min.js' => array(),
         ));
-
+        
         // Define chatbox script path
         define('CHATBOX_SCRIPT', $template['assets'] . 'js/chatbox.js');
 
@@ -251,7 +243,7 @@ class Mooz_Template extends TemplateBase {
                 $NamelessMC['core']['assets'] . 'plugins/emojionearea/css/emojionearea.min.css' => array('defer' => "yes"),
             ));
             $this->addJSScript('
-				twemoji.parse(document.body);
+				//twemoji.parse(document.body);
 			');
         }
         $smarty->assign(array(
@@ -280,6 +272,19 @@ class Mooz_Template extends TemplateBase {
                 //throw $th;
             }
         }
+        $NombreDeUsuarioRegistrado = $user->data()->username;
+        $usuarioestalogueado = $user->isLoggedIn();
+        $JSVariables = array(
+            'EstaLogueado' => $usuarioestalogueado,
+            'NombreDeUsuarioLogineado' => $NombreDeUsuarioRegistrado,
+        );
+        $JSVars = '';
+        $i = 0;
+        foreach ($JSVariables as $var => $value) {
+            $JSVars .= ($i == 0 ? 'var ' : ', ') . $var . ' = "' . $value . '"';
+            $i++;
+        }
+        $this->addJSScript($JSVars);
     }
 
     public function getSettings(){
@@ -296,6 +301,7 @@ class Mooz_Template extends TemplateBase {
         $this->_smarty->assign(array(
             'SITE_URL_SET' => $route,
         ));
+        
         
         $MZ_IDIOMA = new Language(ROOT_PATH . '/custom/templates/Mooz/core/language', LANGUAGE);
 
@@ -334,6 +340,7 @@ class Mooz_Template extends TemplateBase {
             $i++;
         }
 
+
         if (PAGE === 'cc_messaging') {
             $this->addJSFiles(array(
                 $this->_template['assets'] . 'plugin/eoa/emojionearea.min.js' => array(),
@@ -343,12 +350,9 @@ class Mooz_Template extends TemplateBase {
         }
         $this->addJSScript($JSVars);
         $this->addJSFiles(array(
-            $this->_template['assets'] . 'js/core/core.js' => array(),
-            $this->_template['assets'] . 'js/core/user.js' => array(),
-            $this->_template['assets'] . 'js/core/pages.js' => array(),
             $this->_template['assets'] . 'js/core/chuchuwa.js' => array(),
             $this->_template['assets'] . 'js/scripts.js' => array(),
-            'http://dev.mysticplay.net/mzmetrics.js' => array(),
+            //'http://dev.mysticplay.net/mzmetrics.js' => array(),
         ));
 
         foreach($this->_pages->getAjaxScripts() as $script){

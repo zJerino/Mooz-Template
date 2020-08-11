@@ -32,8 +32,8 @@
                 {$AGREE_TO_TERMS}
                 <br />
                 <span class="button-checkbox">
-				  <button type="button" class="btn" data-color="info" tabindex="7"> {$I_AGREE}</button>
-				  <input type="checkbox" name="t_and_c" id="t_and_c" style="display:none;" value="1">
+                    <input type="checkbox" name="t_and_c" id="t_and_c" value="1" tabindex="7">
+                    <label for="t_and_c">{$AGREE_TO_TERMS}</label>
 				</span>
                 <br /><br />
 

@@ -154,7 +154,7 @@
               location: ['{$Mz_addons.6}', '{$Mz_addons.7}']
             })
             
-            crate.notify('Hi NamelessMC')
+            //crate.notify('Hi NamelessMC')
           </script>
         {/if}
     {foreach from=$PARTICLESJS item=PJS}{$PJS}{/foreach}
