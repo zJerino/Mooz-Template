@@ -361,8 +361,6 @@ class Mooz_Template extends TemplateBase {
         foreach($this->_pages->getAjaxScripts() as $script){
             $this->addJSScript('$(document).ready(function(){ $.getJSON(\'' . $script . '\', function(data) {}); });');
         }
-
-        $this->addJSScript('console.log("Xemah is god")');
     }
     //Agregar Archivos CSS
     public function addCSSFiles($files){
