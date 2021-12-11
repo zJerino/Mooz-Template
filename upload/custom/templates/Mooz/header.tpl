@@ -8,27 +8,27 @@
         <meta name="author" content="zJerino"/>
 
         <!-- Primary Meta Tags -->
-        <title>{$TITLE} • {$MZ_GS.WEB_NAME}</title>
-        <meta name="title" content="{$TITLE} • {$MZ_GS.WEB_NAME}">
-        {if isset($PAGE_DESCRIPTION) && $PAGE_DESCRIPTION|count_characters > 0} <meta name="description" content="{$PAGE_DESCRIPTION}" /> {else} <meta name="description" content="{$MZ_GS.WEB_DESC}"/> {/if}
-        {if isset($PAGE_KEYWORDS) && $PAGE_KEYWORDS|count_characters > 0} <meta name="keywords" content="{$PAGE_KEYWORDS}" /> {else} <meta name="keywords" content="{$MZ_GS.WEB_KEYW}" /> {/if}
+        <title>{$TITLE} • {$SITE_NAME}</title>
+        <meta name="title" content="{$TITLE} • {$SITE_NAME}">
+        {if isset($PAGE_DESCRIPTION) && $PAGE_DESCRIPTION|count_characters > 0} <meta name="description" content="{$PAGE_DESCRIPTION}" /> {else} <meta name="description" content="{$mooz.web.description}"/> {/if}
+        {if isset($PAGE_KEYWORDS) && $PAGE_KEYWORDS|count_characters > 0} <meta name="keywords" content="{$PAGE_KEYWORDS}" /> {else} <meta name="keywords" content="{$mooz.web.keywords}" /> {/if}
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{$OG_URL}">
-        <meta property="og:title" content="{$TITLE} • {$MZ_GS.WEB_NAME}">
+        <meta property="og:title" content="{$TITLE} • {$SITE_NAME}">
 
-        {if isset($PAGE_DESCRIPTION) && $PAGE_DESCRIPTION|count_characters > 0} <meta property="og:description" content="{$PAGE_DESCRIPTION}" /> {else} <meta property="og:description" content="{$MZ_GS.WEB_DESC}"/> {/if}
-        <meta property="og:image" content="{$MZ_GS.WEB_LOGO}">
+        {if isset($PAGE_DESCRIPTION) && $PAGE_DESCRIPTION|count_characters > 0} <meta property="og:description" content="{$PAGE_DESCRIPTION}" /> {else} <meta property="og:description" content="{$mooz.web.description}"/> {/if}
+        <meta property="og:image" content="{$mooz.web.logo}">
         
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="{$OG_URL}">
-        <meta property="twitter:title" content="{$TITLE} • {$MZ_GS.WEB_NAME}">
-        {if isset($PAGE_DESCRIPTION) && $PAGE_DESCRIPTION|count_characters > 0} <meta property="twitter:description" content="{$PAGE_DESCRIPTION}" /> {else} <meta property="twitter:description" content="{$MZ_GS.WEB_DESC}"/> {/if}
-        <meta property="twitter:image" content="{$MZ_GS.WEB_LOGO}">
+        <meta property="twitter:title" content="{$TITLE} • {$SITE_NAME}">
+        {if isset($PAGE_DESCRIPTION) && $PAGE_DESCRIPTION|count_characters > 0} <meta property="twitter:description" content="{$PAGE_DESCRIPTION}" /> {else} <meta property="twitter:description" content="{$mooz.web.description}"/> {/if}
+        <meta property="twitter:image" content="{$mooz.web.logo}">
 
-        <link rel="icon" type="image/png" href="{$MZ_GS.WEB_LOGO}">
+        <link rel="icon" type="image/png" href="{$mooz.web.logo}">
         
         {foreach from=$fspeedcss item=styles}
             {$styles}
@@ -69,4 +69,3 @@
 
     <body id="page-{if is_numeric($smarty.const.PAGE)}{$TITLE}{else}{$smarty.const.PAGE}{/if}" class="{if isset($GLOBAL_WARNING_TITLE)}modal-open{/if}" data-scrollbar>
         <main id="wrapper">
-{$PARTICLESJsD}

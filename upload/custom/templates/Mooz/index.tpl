@@ -16,53 +16,14 @@
             <br/>
             {$HOME_SESSION_ERROR_FLASH}
         </span>
-    {/if}
-    {if ($CARU.ACTIVE == "true")}
-        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{$CARU.URL1}" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                <h5>{$CARU.TITULO1}</h5>
-                <p>{$CARU.DES1}</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="{$CARU.URL2}" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                <h5>{$CARU.TITULO2}</h5>
-                <p>{$CARU.DES2}</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="{$CARU.URL3}" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                <h5>{$CARU.TITULO3}</h5>
-                <p>{$CARU.DES3}</p>
-                </div>
-            </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-            </a>
-        </div>
-    {/if}
+    {/if}    
+    
     <div class="row justify-content-center">
         <div class="col-lg-9">
             
-            <div id="XemahIsgod">
+<div id="XemahIsgod">
 
-            </div>
+</div>
             {if count($NEWS)}
                 {foreach from=$NEWS item=item}
                     <div class="card card-news">
@@ -102,9 +63,12 @@
                 {/foreach}
             {/if}
         </div>
-        {if count($WIDGETS)}
+        {if count($WIDGETS_LEFT) || count($WIDGETS_RIGHT)}
             <div class="col-md-4 col-lg-3">
-                {foreach from=$WIDGETS item=widget}
+                {foreach from=$WIDGETS_LEFT item=widget}
+                    {$widget}
+                {/foreach}
+                {foreach from=$WIDGETS_RIGHT item=widget}
                     {$widget}
                 {/foreach}
             </div>

@@ -23,25 +23,8 @@ if (Input::exists()) {
             $cache->store('General_Settigns', $GENERAL_INPUT);
             $success = 'Informacion enviada';
         }
-        if (isset($_POST['carucel'])) {
-            $carucel = array(
-                'ACTIVE' => $_POST['carrucelyesno'], 
-                'URL1' => $_POST['url1'], 
-                'URL2' => $_POST['url2'], 
-                'URL3' => $_POST['url3'], 
-                'TITULO1' => $_POST['titulo1'], 
-                'TITULO2' => $_POST['titulo2'],
-                'TITULO3' => $_POST['titulo3'], 
-                'DES1' => $_POST['DES1'], 
-                'DES2' => $_POST['DES2'], 
-                'DES3' => $_POST['DES3'], 
-            );
-            $cache->store('Carucel_Settigns', $carucel);
-            $success = 'Informacion enviada';
-        }
         if (isset($_POST['Styles'])) {
            try {
-                file_put_contents(ROOT_PATH . '/custom/templates/Mooz/core/assets/css/custom.css', $_POST['customcsss']);
                 
             $SCSS_INPUT = array(
                 // COLORES PRIMARIOS
@@ -103,33 +86,8 @@ if (Input::exists()) {
             $FOOTERTEXT_INPUT = array(
                 // Anuncios
                 'FTEXTO' => $_POST['FooterText'],
-                'TITLE1' => $_POST['ftitle1'],
-                'TITLE2' => $_POST['ftitle2'],
-                'TITLE3' => $_POST['ftitle3'],
             );
             $cache->store('FOOTERTEXT_Settigns', $FOOTERTEXT_INPUT);
-    
-            $success = 'Informacion enviada';
-            
-           } catch (\Throwable $th) {
-               echo $th;
-           }            
-        }
-        if (isset($_POST['widgets'])) {
-           try {
-                
-            $widgetsTEXT_INPUT = array(
-                // Anuncios
-                'towk' => $_POST['ENABLETOWK'],
-                'towk_id' => $_POST['TOWKID'],
-                'DIS' => $_POST['DIS'],
-                'DISID' => $_POST['DISID'],
-                'DISCID' => $_POST['DISCID'],
-                'UPTOP' => $_POST['UPTOP'],
-                'DISP1' => $_POST['DISP1'],
-                'DISP2' => $_POST['DISP2'],
-            );
-            $cache->store('ADDONSTEXT_Settigns', $widgetsTEXT_INPUT);
     
             $success = 'Informacion enviada';
             
@@ -140,20 +98,6 @@ if (Input::exists()) {
     }
 }
 
-
-$resultados_ADDNOS = $cache->retrieve('ADDONSTEXT_Settigns');
-$addons = array(
-    $resultados_ADDNOS['towk'], 
-    $resultados_ADDNOS['towk_id'], 
-    $resultados_ADDNOS['DIS'],
-    $resultados_ADDNOS['DISID'], 
-    $resultados_ADDNOS['DISCID'], 
-    $resultados_ADDNOS['UPTOP'],
-    $resultados_ADDNOS['DISP1'],
-    $resultados_ADDNOS['DISP2'],
-    
-);
-
 $resultados_general = $cache->retrieve('General_Settigns');
 
 $file_json_css = ROOT_PATH . '/custom/templates/Mooz/core/settings/styles.json';
@@ -163,7 +107,6 @@ $resultados_css = json_decode($resultados_css_json, true);
 $resultados_style = $resultados_css;
 $resultados_anuncio = $cache->retrieve('ANUNCIO_Settigns');
 $resultados_footer = $cache->retrieve('FOOTERTEXT_Settigns');
-$resultados_carucel = $cache->retrieve('Carucel_Settigns');
 
 $ValehhEsCristiana = $resultados_style['PRIMARY_OP'];
 $ValehhEsTestigoDeDios = $resultados_style;
@@ -171,22 +114,15 @@ $ValehhEsSatanica = $resultados_general;
 $ValehhEsMiAmigaUwU = $resultados_anuncio;
 $ValehhEsMiMejorAmigaUwU = $resultados_footer;
 
-$CustomCSSScript = file_get_contents(ROOT_PATH . '/custom/templates/Mooz/core/assets/css/custom.css');
-
-
 $smarty->assign(array(
 	'TOKEN' => Token::get(),
-    'CustomCSS' => $CustomCSSScript,
 	'PRIMARY_OPTION' => $ValehhEsCristiana,
 	'CSS_VALUE' => $ValehhEsTestigoDeDios,
 	'GENERAL_VALUE' => $ValehhEsSatanica,
 	'ANUNCIO_VALUE' => $ValehhEsMiAmigaUwU,
-    'FOOTER' => $ValehhEsMiMejorAmigaUwU,
-    'CARU' => $resultados_carucel,
+	'FOOTER' => $ValehhEsMiMejorAmigaUwU,
 	'MORE_DATOS' => $META_DATOS,
     'SETTINGS_TEMPLATE' => ROOT_PATH . '/custom/templates/Mooz/core/panel/index.tpl',
-    'Mz_towk' => $addons['0'],
-    'Mz_addons' => $addons,
 ));
 
 $NLS_PATH = $GLOBALS['conf']['core']['path'];

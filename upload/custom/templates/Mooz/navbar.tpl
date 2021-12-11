@@ -34,7 +34,7 @@
       {else}
         {if ($name == "panel")}
                   <li class="nav-item">
-                      <a class="nav-link hicons" href="{$item.link}" target="{$item.target}">{$item.icon}</a>
+                      <a class="nav-link hicons" href="{$item.link}" style="color: inherit" target="{$item.target}">{$item.icon}</a>
                   </li>
         {elseif ($name == "register")}
                   <li class="nav-item">
@@ -50,7 +50,7 @@
   </div>
 <nav id="navbar" class="navbar navbar-expand-lg navbar-primary">
 <div class="container" id="navbar123123">
-      <a class="navbar-brand" href="{$SITE_HOME}">{$MZ_GS.WEB_NAME}</a>
+      <a class="navbar-brand" href="{$SITE_HOME}">{$SITE_NAME}</a>
       <a class="navbar-toggler" data-target="#sidenav" data-toggle="navdrawer"><i class="material-icons">reorder</i></a>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -81,11 +81,11 @@
   </div>
 </nav>
 </div>
-<div class="jumbotron-fluid bheader" style="box-shadow: none;margin-bottom: 25px;background-image: url('{if isset($MZ_GS.WEB_BANN)} {$MZ_GS.WEB_BANN} {/if}')">    <br />
+<div class="jumbotron-fluid bheader" style="box-shadow: none;margin-bottom: 25px;background-image: url('{if isset($mooz.web.banner)} {$mooz.web.banner} {/if}')">    <br />
   <div class="container">
       <center>
           <i class="variable123123123">
-              <img src="{if isset($MZ_GS.WEB_LOGO)}{$MZ_GS.WEB_LOGO}{else}{$TEMPLATE.path}img/logo.png{/if}" {if ($MZ_ANIMACIONES gte 1)}class="pulse"{/if} style="width: 220px;">
+              <img class="lazy" data-src="{if isset($mooz.web.logo)}{$mooz.web.logo}{else}{$TEMPLATE.path}img/logo.png{/if}" data-srcset="{if isset($MZ_GS.WEB_LOGO)}{$MZ_GS.WEB_LOGO}{else}{$TEMPLATE.path}img/logo.png{/if}" {if ($mooz.web.animations)}class="animated"{/if} style="width: 220px;">
           </i>
       </center>
   </div>
@@ -93,7 +93,7 @@
 <div aria-hidden="true" class="navdrawer" id="sidenav" tabindex="-1">
 <div class="navdrawer-content">
   <div class="navdrawer-header">
-    <a class="navbar-brand px-0" href="{$SITE_HOME}">{$MZ_GS.WEB_NAME}</a>
+    <a class="navbar-brand px-0" href="{$SITE_HOME}">{$SITE_NAME}</a>
   </div>
   <nav class="navdrawer-nav">
       {foreach from=$NAV_LINKS key=name item=item}
@@ -134,7 +134,7 @@
           </div>
       </div>
   {/if}
-<a href="" hidden="hidden"></a>
+                
 {if isset($MAINTENANCE_ENABLED)}
 <div class="alert alert-danger alert-dismissible" role="alert">
   <button class="close" data-dismiss="alert" aria-label="Close">
@@ -149,30 +149,7 @@
       {$MUST_VALIDATE_ACCOUNT}
     </div>
 {/if}
-{if ($ANUNCIO_ENABLE gte yes)}
-    <div class="alert alert-primary">
-      <div class="h4 center">{$ANUNCIO_TITLE}</div>
-       {$ANUNCIO_DESCRICTION}
-   </div>
-  {/if}
   
   <br />
 </div>
 <main>
-<div class="container">
-{if ($MZ_GS.WEB_ANUN == "1")}
-  <div class="anuncio anuncio-{$MZ_AS.TIPO}">
-    <div class="anuncio-contenido">
-      <span class="anuncio-title">
-        {$MZ_AS.TITULO}
-      </span>
-      <span class="anuncio-des">
-        {$MZ_AS.DESCRI}
-      </span>
-    </div>
-  </div>
-{/if}
-
-</div>
-
-
