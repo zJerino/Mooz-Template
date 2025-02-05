@@ -43,6 +43,11 @@ class Mooz_Template extends TemplateBase {
 
         $smarty->assign('TEMPLATE', $template);
 
+        $smarty->assign('mzlang', array(
+            'mc_account' => $language->get('user', 'minecraft_username'),
+            'integrations' => $language->get('admin', 'integrations'),
+        ));
+
         // Other variables
         $smarty->assign('FORUM_SPAM_WARNING_TITLE', $language->get('general', 'warning'));
 
@@ -82,7 +87,6 @@ class Mooz_Template extends TemplateBase {
             'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' => [],
             'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css' => [],
             $this->_template['path'] . 'css/custom.css' . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, 'css/custom.css']))) : '') => [],            
-            
         ]);
 
         $route = (isset($_GET['route']) ? rtrim($_GET['route'], '/') : '/');
@@ -128,6 +132,19 @@ class Mooz_Template extends TemplateBase {
             ]);
         }
 
+        if (str_contains($route, '/members/') || PAGE === 'members') {
+            $this->assets()->include([
+                AssetTree::SELECT2,
+            ]);
+            $this->addCSSFiles([
+                'https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css' => [],
+            ]);
+            $this->addJSFiles([
+                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js' => [],
+            ]);
+        }
+
+
         $JSVars = '';
         $i = 0;
         foreach ($JSVariables as $var => $value) {
@@ -153,3 +170,4 @@ class Mooz_Template extends TemplateBase {
 
 $template = new Mooz_Template($cache, $smarty, $language, $user, $pages);
 //$template_pagination = ['div' => 'ui mini pagination menu', 'a' => '{x}item'];
+$template_pagination = ['div' => 'pagination d-inline-flex mb-0', 'a' => 'page-link {x}'];

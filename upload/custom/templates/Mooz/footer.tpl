@@ -141,7 +141,7 @@
 {foreach from=$TEMPLATE_JS item=script}
     {$script}
 {/foreach}
-
+{block name=beforeJS}{/block}
 {if isset($GLOBAL_WARNING_TITLE)}
 <script type="text/javascript">
     $('#modal-acknowledge').modal({ closable: false }).modal('show');

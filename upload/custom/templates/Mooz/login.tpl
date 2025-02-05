@@ -1,24 +1,22 @@
 {include file='header.tpl'}
 {include file='navbar.tpl'}
 
-{if count($ERROR)}
-    <div class="bg-body border-3 border-start border-danger d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
-        <div class="text-danger text-center rounded-3 fv-small fw-bold me-3">
-            <i class="bi bi-x-circle-fill fs-2"></i>
-        </div>
-        <div class="text-body-secondary">
-            <strong class="text-danger me-2">{$ERROR_TITLE}</strong>
-            <ul class="list">
-                {foreach from=$ERROR item=error}
-                    <li>{$error}</li>
-                {/foreach}
-            </ul>
-        </div>
-    </div>
-{/if}
-
-
 <div class="container">
+    {if count($ERROR)}
+        <div class="bg-body border-3 border-start border-danger d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+            <div class="text-danger text-center rounded-3 fv-small fw-bold me-3">
+                <i class="bi bi-x-circle-fill fs-2"></i>
+            </div>
+            <div class="text-body-secondary">
+                <strong class="text-danger me-2">{$ERROR_TITLE}</strong>
+                <ul class="list">
+                    {foreach from=$ERROR item=error}
+                        <li>{$error}</li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
     <div class="row justify-content-center">
         <div class="col-12 col-md-6">
             <div class="bg-body rounded-3 shadow-sm d-flex flex-column">

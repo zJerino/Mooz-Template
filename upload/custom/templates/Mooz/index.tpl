@@ -1,7 +1,7 @@
 {extends file="base/empty.tpl"}
 
 {block name=content}
-    {if isset($HOME_SESSION_FLASH)}
+{if isset($HOME_SESSION_FLASH)}
     <div class="bg-body border-3 border-start border-success d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
         <div class="text-success text-center rounded-3 fv-small fw-bold me-3">
             <i class="bi bi-check-circle-fill fs-2"></i>

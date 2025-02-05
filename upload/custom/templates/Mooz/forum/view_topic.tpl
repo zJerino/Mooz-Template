@@ -212,7 +212,7 @@
                             <div class="d-flex flex-column flex-grow-1">
                                 <div class="forum_post m-3">{$reply.content}</div>
                                 {if !empty($reply.signature)}
-                                    <div style="overflow: scroll; max-height: 500px;">
+                                    <div style="overflow: auto; max-height: 500px;">
                                         {$reply.signature}
                                     </div>
                                 {/if}

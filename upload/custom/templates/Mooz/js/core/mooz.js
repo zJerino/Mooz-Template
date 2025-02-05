@@ -38,10 +38,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       u.innerHTML = e.innerHTML;
 
-      PopoverI.setContent({
-        '.popover-body': u,
-        '.popover-header': ppTitle,
-      });
+      let h = {};
+      
+      if (u != undefined && u != ' ') {
+        h['.popover-body'] = u;
+      }
+      
+      if (ppTitle != undefined && ppTitle != ' ') {
+        h['.popover-header'] = ppTitle;
+      }
+      PopoverI.setContent(h);
     }
   })
 
