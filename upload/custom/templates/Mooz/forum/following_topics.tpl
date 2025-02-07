@@ -1,112 +1,97 @@
-{include file='header.tpl'}
-{include file='navbar.tpl'}
+{extends file="base/user.tpl"}
 
-<h2 class="ui header">
-    {$USER_CP}
-</h2>
-
-<div class="ui stackable grid" id="alerts">
-    <div class="ui centered row">
-        <div class="ui six wide tablet four wide computer column">
-            {include file='user/navigation.tpl'}
-        </div>
-        <div class="ui ten wide tablet twelve wide computer column">
-            <div class="ui segment">
-                <h3 class="ui header">
-                    {$FOLLOWING_TOPICS}
-                    {if count($TOPICS_LIST)}
-                    <div class="res right floated">
-                        <a class="ui mini negative button" href="#" data-toggle="modal"
-                            data-target="#modal-delete">{$UNFOLLOW_ALL}</a>
-                    </div>
-                    {/if}
-                </h3>
-                {if isset($SUCCESS_MESSAGE)}
-                <div class="ui success icon message">
-                    <i class="check icon"></i>
-                    <div class="content">
-                        <div class="header">{$SUCCESS}</div>
-                        {$SUCCESS_MESSAGE}
-                    </div>
-                </div>
-                {/if}
-                <div class="ui middle aligned relaxed selection list">
-                    {nocache}
-                    {if count($TOPICS_LIST)}
-                    <table class="ui striped selectable table">
-                        <tbody>
-                            {foreach from=$TOPICS_LIST item=topic}
-                            <tr>
-                                <td>
-                                    <div class="ui stackable middle aligned grid">
-                                        <div class="row" onclick="window.location.href = '{$topic.last_post_link}'"
-                                            style="cursor: pointer">
-                                            <div class="ten wide column">
-                                                {if $topic.unread}
-                                                <i class="bell icon"></i><strong>{$topic.topic_title}</strong>
-                                                {else}
-                                                {$topic.topic_title}
-                                                {/if}
-                                            </div>
-                                            <div class="four wide column">
-                                                <h5 class="ui image header">
-                                                    <img class="ui mini circular image"
-                                                        src="{$topic.reply_author_avatar}">
-                                                    <div class="content">
-                                                        <a href="{$topic.reply_author_link}" data-toggle="popup"
-                                                            data-poload="{$USER_INFO_URL}{$topic.reply_author_id}"
-                                                            style="{$topic.reply_author_style}">{$topic.reply_author_nickname}</a>
-                                                        <div class="sub header" data-toggle="tooltip"
-                                                            data-content="{$topic.reply_date_full}">{$topic.reply_date}
-                                                        </div>
-                                                    </div>
-                                                </h5>
-                                            </div>
-                                            <div class="two wide column right aligned">
-                                                <form action="{$topic.unfollow_link}" method="post"
-                                                    style="display: inline">
-                                                    <input type="hidden" value="{$TOKEN}" name="token" />
-                                                    <button class="ui mini red button">{$UNFOLLOW_TOPIC}</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            {/foreach}
-                        </tbody>
-                    </table>
-
-                    {$PAGINATION}
-                    {else}
-                    <div class="ui info message">
-                        <div class="content">
-                            {$NO_TOPICS}
-                        </div>
-                    </div>
-                    {/if}
-                    {/nocache}
-                </div>
+{block name=content}
+    {if isset($SUCCESS_MESSAGE)}
+        <div class="bg-body border-3 border-start border-success d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+            <div class="text-success text-center rounded-3 fv-small fw-bold me-3">
+                <i class="bi bi-check-circle-fill fs-2"></i>
+            </div>
+            <div class="text-body-secondary">
+                <strong class="text-success">{$SUCCESS}</strong> {$SUCCESS_MESSAGE}
             </div>
         </div>
-    </div>
-</div>
+    {/if}
 
-<div class="ui small modal" id="modal-delete">
-    <div class="header">
-        {$UNFOLLOW_ALL}
-    </div>
-    <div class="content">
-        {$CONFIRM_UNFOLLOW}
-    </div>
-    <div class="actions">
-        <a class="ui negative button">{$NO}</a>
-        <form class="ui form" action="" method="post" style="display: inline">
-            <input type="hidden" name="token" value="{$TOKEN}">
-            <input type="hidden" name="action" value="purge">
-            <input type="submit" class="ui green button" value="{$YES}">
-        </form>
-    </div>
-</div>
+    <div class="bg-body shadow-sm rounded-3 py-3 d-flex flex-column mb-3">                
+        <div class="mx-3 mb-3 d-flex align-items-center">
+            <h5 class="me-auto">{$FOLLOWING_TOPICS}</h5>
+            
+            {if count($TOPICS_LIST)}
+                <a class="btn btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#modal-delete"><i data-bs-toggle="tooltip" title="{$UNFOLLOW_ALL}" class="bi bi-trash"></i></a>
+            {/if}
+        </div>
+        
+        {nocache}
+            {if count($TOPICS_LIST)}
+                <ul class="list-group list-group-flush">
+                    {foreach from=$TOPICS_LIST item=topic}
+                        <li data-href="{$topic.last_post_link}" class="list-group-item list-group-item-action d-flex align-items-center">
+                            {if $topic.unread}
+                                <i class="bi bi-bell"></i>
+                            {/if}
+                            <div class="d-flex flex-column me-auto">
+                                <strong>{$topic.topic_title}</strong>                            
+                                <div class="d-flex">
+                                    <img class="rounded-circle me-2" src="{$topic.reply_author_avatar}" style="width: 1rem; height: 1rem">
+                                    <small class="d-flex">
+                                        <a href="{$topic.reply_author_link}" data-toggle="popup" data-poload="{$USER_INFO_URL}{$topic.reply_author_id}" style="text-decoration:none;{$topic.reply_author_style}">{$topic.reply_author_nickname}</a>
+                                        <span class="text-body-secondary mx-1">&bull;</span>
+                                        <div class="text-body-secondary" data-bs-toggle="tooltip" title="{$topic.reply_date_full}">
+                                            {$topic.reply_date}
+                                        </div>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="ms-2">
+                                <form action="{$topic.unfollow_link}" method="post" style="display: inline">
+                                    <input type="hidden" value="{$TOKEN}" name="token" />
+                                    <button class="btn btn-danger">{$UNFOLLOW_TOPIC}</button>
+                                </form>
+                            </div>
+                        </li>
+                    {/foreach}
+                </ul>
 
-{include file='footer.tpl'}
+                <div class="mt-2 mx-auto">
+                    {$PAGINATION}
+                </div>
+
+
+                <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modal-deleteLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modal-deleteLabel">{$UNFOLLOW_ALL}</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                {$CONFIRM_UNFOLLOW}
+
+
+                                <form class="ui form" action="" method="post" style="display: inline" id="deleteall-form">
+                                    <input type="hidden" name="token" value="{$TOKEN}">
+                                    <input type="hidden" name="action" value="purge">
+                                </form>
+                                <div class="d-flex flex-column justify-content-md-start flex-md-row-reverse mt-2">
+                                    <a class="btn btn-success rounded-5 px-4 ms-0 ms-md-2 mb-1 mb-md-0" onclick="$('#deleteall-form').submit()">{$YES}</a>
+                                    <button class="btn btn-danger rounded-5 px-4" data-bs-dismiss="modal">{$NO}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {else}
+                <div class="bg-body border-3 border-start border-info d-flex flex-row mx-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+                    <div class="text-info text-center rounded-3 fv-small fw-bold me-3">
+                        <i class="bi bi-check-circle-fill fs-2"></i>
+                    </div>
+                    <div class="text-body-secondary">
+                        {$NO_TOPICS}
+                    </div>
+                </div>
+            {/if}
+        {/nocache}
+
+
+    </div>
+{/block}

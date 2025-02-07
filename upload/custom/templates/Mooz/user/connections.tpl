@@ -1,107 +1,92 @@
-{include file='header.tpl'}
-{include file='navbar.tpl'}
+{extends file="base/user.tpl"}
 
-<h2 class="ui header">
-    {$TITLE}
-</h2>
-
-{if isset($SUCCESS)}
-<div class="ui success icon message">
-    <i class="check icon"></i>
-    <div class="content">
-        <div class="header">{$SUCCESS_TITLE}</div>
-        {$SUCCESS}
-    </div>
-</div>
-{/if}
-
-{if isset($ERRORS)}
-<div class="ui error icon message">
-    <i class="x icon"></i>
-    <div class="content">
-        <ul class="list">
-            {foreach from=$ERRORS item=error}
-            <li>{$error}</li>
-            {/foreach}
-        </ul>
-    </div>
-</div>
-{/if}
-
-<div class="ui stackable grid" id="alerts">
-    <div class="ui centered row">
-        <div class="ui six wide tablet four wide computer column">
-            {include file='user/navigation.tpl'}
+{block name=content}
+    {if isset($SUCCESS)}
+        <div class="bg-body border-3 border-start border-success d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+            <div class="text-success text-center rounded-3 fv-small fw-bold me-3">
+                <i class="bi bi-check-circle-fill fs-2"></i>
+            </div>
+            <div class="text-body-secondary">
+                <strong class="header">{$SUCCESS_TITLE}</strong> {$SUCCESS}
+            </div>
         </div>
-        <div class="ui ten wide tablet twelve wide computer column">
-            <div class="ui segment">
-                <h3 class="ui header">
-                    {$CONNECTIONS}
-                </h3>
+    {/if}
 
-                {foreach from=$INTEGRATIONS item=integration}
-                <div class="ui segment">
-                    <div class="ui middle aligned stackable grid">
-                        <div class="one wide column right aligned mobile hidden">
-                            <svg width="14" height="14" viewBox="0 0 14 14"
-                                fill="{if $integration.connected}{if $integration.verified}green{else}orange{/if}{else}red{/if}"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M3 7C3 4.79086 4.79086 3 7 3V3C9.20914 3 11 4.79086 11 7V7C11 9.20914 9.20914 11 7 11V11C4.79086 11 3 9.20914 3 7V7Z" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M7 14C3.13401 14 0 10.866 0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14ZM7 3C4.79086 3 3 4.79086 3 7C3 9.20914 4.79086 11 7 11C9.20914 11 11 9.20914 11 7C11 4.79086 9.20914 3 7 3Z"
-                                    fill-opacity="0.27" />
-                            </svg>
-                        </div>
-                        <div class="nine wide column">
-                            <strong>{$integration.name}</strong>
-                            {if $integration.connected && !$integration.verified}
-                            <div class="ui orange tiny label">{$PENDING_VERIFICATION}</div> {if $integration.required}
-                            <div class="ui red tiny label">{$REQUIRED}</div>{/if}
-                            {else if !$integration.connected && $integration.required}
-                            <div class="ui red tiny label">{$REQUIRED}</div>
-                            {/if}
-                            </br>
+    {if isset($ERRORS)}
+        <div class="bg-body border-3 border-start border-danger d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+            <div class="text-danger text-center rounded-3 fv-small fw-bold me-3">
+                <i class="bi bi-x-circle-fill fs-2"></i>
+            </div>
+            <ul class="list">
+                {foreach from=$ERRORS item=error}
+                    <li>{$error}</li>
+                {/foreach}
+            </ul>
+        </div>
+    {/if}
+
+    <div class="bg-body shadow-sm rounded-3 py-3 d-flex flex-column mb-3">                
+        <div class="mx-3 d-flex">
+            <h5>{$CONNECTIONS}</h5>
+        </div>
+        <div class="row mx-3">
+            {foreach from=$INTEGRATIONS item=integration}
+                <div class="col-12 col-md-6">
+                    <div class="bg-body shadow-sm rounded-3 d-flex flex-column">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex p-2">
+                                <strong class="me-2">{$integration.name}</strong>
+
+                                {if $integration.connected && !$integration.verified}
+                                    <div class="badge text-bg-warning">{$PENDING_VERIFICATION}</div>
+                                    {if $integration.required}
+                                        {* <div class="text-danger">{$REQUIRED}</div> *}
+                                    {/if}
+                                {else if !$integration.connected && $integration.required}
+                                    <div class="badge text-bg-danger">{$REQUIRED}</div>
+                                {/if}
+                            </div>
+                            
+                            <div class="text-body-secondary p-2">
+                                {if $integration.connected}
+                                    {$integration.username}
+                                {else}
+                                    {$NOT_CONNECTED}
+                                {/if}
+                            </div>
+
                             {if $integration.connected}
-                            {$integration.username}
+                                <div class="d-flex flex-column w-100">
+                                    {if $integration.connected && !$integration.verified}
+                                        <form class="d-flex flex-column" action="" method="post">
+                                            <input type="hidden" name="token" value="{$TOKEN}">
+                                            <input type="hidden" name="action" value="verify">
+                                            <input type="hidden" name="integration" value="{$integration.name}">
+                                            <input type="submit" class="btn btn-warning m-1" value="{$VERIFY}">
+                                        </form>
+                                    {/if}
+
+                                    {if $integration.can_unlink}
+                                        <form class="d-flex flex-column" action="" method="post">
+                                            <input type="hidden" name="token" value="{$TOKEN}">
+                                            <input type="hidden" name="action" value="unlink">
+                                            <input type="hidden" name="integration" value="{$integration.name}">
+                                            <input type="submit" class="btn btn-danger m-1" value="{$UNLINK}">
+                                        </form>
+                                    {/if}
+                                </div>
                             {else}
-                            {$NOT_CONNECTED}
-                            {/if}
-                        </div>
-                        <div class="six wide column right aligned">
-                            {if $integration.connected}
-                            {if $integration.connected && !$integration.verified}
-                            <form class="ui form" action="" method="post" style="display: inline">
-                                <input type="hidden" name="token" value="{$TOKEN}">
-                                <input type="hidden" name="action" value="verify">
-                                <input type="hidden" name="integration" value="{$integration.name}">
-                                <input type="submit" class="ui mini orange button" value="{$VERIFY}">
-                            </form>
-                            {/if}
-                            {if $integration.can_unlink}
-                            <form class="ui form" action="" method="post" style="display: inline">
-                                <input type="hidden" name="token" value="{$TOKEN}">
-                                <input type="hidden" name="action" value="unlink">
-                                <input type="hidden" name="integration" value="{$integration.name}">
-                                <input type="submit" class="ui mini negative button" value="{$UNLINK}">
-                            </form>
-                            {/if}
-                            {else}
-                            <form class="ui form" action="" method="post" style="display: inline">
-                                <input type="hidden" name="token" value="{$TOKEN}">
-                                <input type="hidden" name="action" value="link">
-                                <input type="hidden" name="integration" value="{$integration.name}">
-                                <input type="submit" class="ui mini positive button" value="{$CONNECT}">
-                            </form>
+                                <form class="d-flex flex-column" action="" method="post">
+                                    <input type="hidden" name="token" value="{$TOKEN}">
+                                    <input type="hidden" name="action" value="link">
+                                    <input type="hidden" name="integration" value="{$integration.name}">
+                                    <input type="submit" class="btn btn-success m-1" value="{$CONNECT}">
+                                </form>
                             {/if}
                         </div>
                     </div>
                 </div>
-                {/foreach}
-
-            </div>
+            {/foreach}
         </div>
     </div>
-</div>
-
-{include file='footer.tpl'}
+{/block}

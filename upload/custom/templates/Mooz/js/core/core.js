@@ -30,14 +30,22 @@ function copy(element) {
 }
 
 $(document).ready(function () {
-    $('[data-action="logout"]').click(function () {
-        const url = $(this).data('link');
-        $.post(url, {
-            token: csrfToken
-        }).done(function () {
-            window.location.reload();
-        });
-    });
+    let mzActions = document.querySelectorAll('[data-action]');
+
+    [...mzActions].map((actionEl) => {
+        actionEl.addEventListener('click', () => {
+            switch ($(actionEl).data('action')) {
+                case 'logout':
+                    let url = $(actionEl).data('link');
+                    $.post(url, {
+                        token: (csrfToken ? csrfToken : '')
+                    }).done(function () {
+                        window.location.reload();
+                    });
+                    break;
+            }
+        })
+    })
 });
 
 $(function () {

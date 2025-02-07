@@ -146,7 +146,7 @@
                 </div>
                 <ul class="list-group list-group-flush mb-0">
                     {foreach from=$ABOUT_FIELDS item=item key=key}
-                        {if $item.type == 'text' && $item.title != 'Minecraft'}
+                        {if $item.type == 'text' && $item.title != 'Minecraft' && $item.title != 'Discord'}
                             <li class="list-group-item d-flex flex-column">
                                 <strong class="me-2"><small>{$item.title}</small></strong>
                                 <small class="text-body-secondary ms-1">{$item.value}</small>
@@ -174,8 +174,14 @@
                     <div class="row">
                         {foreach from=$INTEGRATIONS item=item key=key}
                             <div class="col-6">
-                                <div class="d-flex flex-row">
-                                    <img src="{if ($key == 'Minecraft')}{$TEMPLATE.path}/img/mc-grass.jpg{/if}" alt="" class="rounded-2 me-2 object-fit-contain" width="32">
+                                <div class="d-flex flex-row align-items-center">
+                                    {if ($key == 'Minecraft')}
+                                        <img src="{$TEMPLATE.path}/img/mc-grass.jpg" alt="" class="rounded-2 me-2 object-fit-contain" width="32" height="32">
+                                    {elseif ($key == 'Discord')}
+                                        <i class="bi bi-discord me-2 fs-3"></i>
+                                    {else}
+                                        <i class="bi bi-person me-2 fs-3"></i>
+                                    {/if}
                                     <div class="d-flex flex-column">
                                         <strong>{$item.username}</strong>
                                         <small class="text-body-secondary">{$key}</small>

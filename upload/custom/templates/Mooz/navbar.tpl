@@ -109,7 +109,7 @@
                             {if isset($dropdown.separator)}
                             {else}
                                 {if isset($dropdown.action)}
-                                    <a class="list-group-item list-group-item-action" href="#" data-link="{$dropdown.link}" data-action="{$dropdown.action}">{$dropdown.icon} {$dropdown.title}</a>
+                                    <li class="list-group-item list-group-item-action" tabindex="0" style="cursor: pointer;" data-link="{$dropdown.link}" data-action="{$dropdown.action}">{$dropdown.icon} {$dropdown.title}</li>
                                 {else}
                                     <a class="list-group-item list-group-item-action" href="{$dropdown.link}" target="{$dropdown.target}">{$dropdown.icon} {$dropdown.title}</a>
                                 {/if}

@@ -1,122 +1,116 @@
-{include file='header.tpl'}
-{include file='navbar.tpl'}
+{extends file="base/user.tpl"}
 
-<h2 class="ui header">
-    {$USER_CP}
-</h2>
-
-<div class="ui stackable grid" id="alerts">
-    <div class="ui centered row">
-        <div class="ui six wide tablet four wide computer column">
-            {include file='user/navigation.tpl'}
+{block name=content}
+    {if isset($SUCCESS_MESSAGE)}
+        <div class="bg-body border-3 border-start border-success d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+            <div class="text-success text-center rounded-3 fv-small fw-bold me-3">
+                <i class="bi bi-check-circle-fill fs-2"></i>
+            </div>
+            <div class="text-body-secondary">
+                <strong class="text-success">{$SUCCESS}</strong> {$SUCCESS_MESSAGE}
+            </div>
         </div>
-        <div class="ui ten wide tablet twelve wide computer column">
-            <div class="ui segment">
-                <h3 class="ui header">
-                    {$OAUTH}
-                </h3>
-                {if isset($SUCCESS_MESSAGE)}
-                <div class="ui success icon message">
-                    <i class="check icon"></i>
-                    <div class="content">
-                        <div class="header">{$SUCCESS}</div>
-                        {$SUCCESS_MESSAGE}
-                    </div>
-                </div>
-                {/if}
-                {if isset($ERROR_MESSAGE)}
-                <div class="ui negative icon message">
-                    <i class="x icon"></i>
-                    <div class="content">
-                        <div class="header">{$ERROR}</div>
-                        {$ERROR_MESSAGE}
-                    </div>
-                </div>
-                {/if}
-                <div class="ui middle aligned relaxed selection list">
-                    {nocache}
-                    {if count($OAUTH_PROVIDERS)}
-                    <table class="ui striped table">
-                        <tbody>
-                            {foreach $OAUTH_PROVIDERS as $provider_name => $provider_data}
-                            <tr>
-                                <td>
-                                    <div class="ui stackable middle aligned grid">
-                                        <div class="row">
-                                            <div class="ten wide column">
-                                                {if $provider_data.icon}
-                                                <i class="{$provider_data.icon} fa-lg">&nbsp;</i>
-                                                {/if}
-                                                {$provider_name|ucfirst}
-                                            </div>
-                                            <div class="four wide column">
-                                                {if isset($USER_OAUTH_PROVIDERS[$provider_name])}
-                                                <div class="res right floated">
-                                                    <code>{$USER_OAUTH_PROVIDERS[$provider_name]->provider_id}</code>
-                                                </div>
-                                                {/if}
-                                            </div>
-                                            <div class="two wide column right aligned">
-                                                {if isset($USER_OAUTH_PROVIDERS[$provider_name])}
-                                                <a class="ui mini red button" href="#" data-toggle="modal"
-                                                    data-target="#modal-unlink-{$provider_name}">{$UNLINK}</a>
-                                                {else}
-                                                <a class="ui mini green button" href="#" data-toggle="modal"
-                                                    data-target="#modal-link-{$provider_name}">{$LINK}</a>
-                                                {/if}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            {/foreach}
-                        </tbody>
-                    </table>
-                    {else}
-                    <div class="ui info message">
-                        <div class="content">
-                            {$NO_PROVIDERS}
+    {/if}
+
+    {if isset($ERROR_MESSAGE)}
+        <div class="bg-body border-3 border-start border-danger d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+            <div class="text-danger text-center rounded-3 fv-small fw-bold me-3">
+                <i class="bi bi-x-circle-fill fs-2"></i>
+            </div>
+            <div class="text-body-secondary">
+                <strong class="text-success">{$ERROR}</strong> {$ERROR_MESSAGE}
+            </div>
+        </div>
+    {/if}
+
+    <div class="bg-body shadow-sm rounded-3 py-3 d-flex flex-column mb-3">                
+        <div class="mx-3 d-flex">
+            <h5>{$OAUTH}</h5>
+        </div>
+        {if count($OAUTH_PROVIDERS)}
+            <ul class="list-group list-group-flush ">
+                {foreach $OAUTH_PROVIDERS as $provider_name => $provider_data}
+                    <li class="list-group-item d-flex align-items-center">
+                        {if $provider_data.icon}
+                            <i class="{$provider_data.icon} fa-lg fs-3">&nbsp;</i>
+                        {/if}
+                        <div class="d-flex flex-column">
+                            <strong>{$provider_name|ucfirst}</strong>
+                            {if isset($USER_OAUTH_PROVIDERS[$provider_name])}                            
+                                <small class="fv-petite">
+                                    <code>{$USER_OAUTH_PROVIDERS[$provider_name]->provider_id}</code>
+                                </small>
+                            {/if}
                         </div>
+                        <div class="ms-auto d-flex">
+                            {if isset($USER_OAUTH_PROVIDERS[$provider_name])}
+                                <a class="btn btn-danger btn-sm" href="#" data-bs-toggle="modal" data-bs-target="#unlink-{$provider_name}-Modal">{$UNLINK}</a>
+                            {else}
+                                <a class="btn btn-success btn-sm" href="#" data-bs-toggle="modal" data-bs-target="#link-{$provider_name}-Modal">{$LINK}</a>
+                            {/if}
+                        </div>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+            <div class="bg-body border-3 border-start border-info d-flex flex-row mx-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+                <div class="text-info text-center rounded-3 fv-small fw-bold me-3">
+                    <i class="bi bi-exclamation-circle-fill fs-2"></i>
+                </div>
+                <div class="text-body-secondary">
+                    {$NO_PROVIDERS}
+                </div>
+            </div>
+        {/if}
+    </div>
+
+    
+    <!-- Modals -->
+    {foreach $OAUTH_PROVIDERS as $provider_name => $provider_data}
+        <div class="modal fade" id="unlink-{$provider_name}-Modal" tabindex="-1" aria-labelledby="unlink-{$provider_name}-Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="unlink-{$provider_name}-Label">{$UNLINK} {$provider_name|ucfirst}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    {/if}
-                    {/nocache}
+                    <div class="modal-body">
+                        {$OAUTH_MESSAGES[$provider_name]['unlink_confirm']}
+
+
+                        <div class="d-flex flex-column justify-content-md-start flex-md-row-reverse mt-2">
+                            <button class="btn btn-success rounded-5 px-4 ms-0 ms-md-2 mb-1 mb-md-0" onclick="$('#unlink-{$provider_name}-form').submit()">{$YES}</button>
+                            <button class="btn btn-danger rounded-5 px-4" data-bs-dismiss="modal">{$NO}</button>
+                        </div>
+
+                        <form class="d-none" action="" method="post" id="unlink-{$provider_name}-form">
+                            <input type="hidden" name="token" value="{$TOKEN}">
+                            <input type="hidden" name="action" value="unlink">
+                            <input type="hidden" name="provider" value="{$provider_name}">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-{foreach $OAUTH_PROVIDERS as $provider_name => $provider_data}
-<div class="ui small modal" id="modal-unlink-{$provider_name}">
-    <div class="header">
-        {$UNLINK} {$provider_name|ucfirst}
-    </div>
-    <div class="content">
-        {$OAUTH_MESSAGES[$provider_name]['unlink_confirm']}
-    </div>
-    <div class="actions">
-        <a class="ui negative button">{$NO}</a>
-        <form class="ui form" action="" method="post" style="display: inline">
-            <input type="hidden" name="token" value="{$TOKEN}">
-            <input type="hidden" name="action" value="unlink">
-            <input type="hidden" name="provider" value="{$provider_name}">
-            <input type="submit" class="ui green button" value="{$YES}">
-        </form>
-    </div>
-</div>
+        <div class="modal fade" id="link-{$provider_name}-Modal" tabindex="-1" aria-labelledby="link-{$provider_name}-Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="link-{$provider_name}-Label">{$LINK} {$provider_name|ucfirst}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {$OAUTH_MESSAGES[$provider_name]['link_confirm']}
 
-<div class="ui small modal" id="modal-link-{$provider_name}">
-    <div class="header">
-        {$LINK} {$provider_name|ucfirst}
-    </div>
-    <div class="content">
-        {$OAUTH_MESSAGES[$provider_name]['link_confirm']}
-    </div>
-    <div class="actions">
-        <a class="ui negative button">{$NO}</a>
-        <a class="ui green button" href="{$provider_data.url}">{$CONFIRM}</a>
-    </div>
-</div>
-{/foreach}
 
-{include file='footer.tpl'}
+                        <div class="d-flex flex-column justify-content-md-start flex-md-row-reverse mt-2">
+                            <a class="btn btn-success rounded-5 px-4 ms-0 ms-md-2 mb-1 mb-md-0" href="{$provider_data.url}">{$CONFIRM}</a>    
+                            <button class="btn btn-danger rounded-5 px-4" data-bs-dismiss="modal">{$NO}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {/foreach}
+{/block}

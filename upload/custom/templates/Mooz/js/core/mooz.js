@@ -33,15 +33,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let u = document.createElement('div');
 
-      u.classList.add('d-flex');
-      u.classList.add('flex-wrap');
+      e.classList.add('d-flex');
+      e.classList.add('flex-wrap');
 
-      u.innerHTML = e.innerHTML;
 
       let h = {};
       
-      if (u != undefined && u != ' ') {
-        h['.popover-body'] = u;
+      if (e != undefined && e != ' ') {
+        h['.popover-body'] = e;
       }
       
       if (ppTitle != undefined && ppTitle != ' ') {
@@ -73,9 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
     formElement.submit();
   }));
 
-
-
-
+  /**
+   * Mooz navbar
+   */
   let header = document.querySelector("#app-base > #app-header");
   let headerSize = header.clientHeight;
   header.style.minHeight = headerSize + 5 + "px";

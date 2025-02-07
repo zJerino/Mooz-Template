@@ -1,42 +1,30 @@
-{include file='header.tpl'}
-{include file='navbar.tpl'}
+{extends file="base/user.tpl"}
 
-<h2 class="ui header">
-    {$TITLE}
-</h2>
-
-<div class="ui stackable grid" id="user">
-    <div class="ui centered row">
-        <div class="ui six wide tablet four wide computer column">
-            {include file='user/navigation.tpl'}
-        </div>
-        <div class="ui ten wide tablet twelve wide computer column">
-            <div class="ui segment">
-                <h3 class="ui header">{$OVERVIEW}</h3>
-                <div class="ui relaxed list">
-                    {nocache}
-                    {foreach from=$USER_DETAILS_VALUES key=name item=value}
-                    <div class="item">
-                        <i class="angle right icon"></i>
-                        <div class="middle aligned content">
-                            <span class="header">{$name}</span>
-                            <div class="description">{$value}</div>
+{block name=content}
+    <div class="bg-body shadow-sm rounded-3 py-3 d-flex flex-column mb-3">                
+        <h5 class="mx-3">{$OVERVIEW}</h5>
+        
+        <ul class="list-group list-group-flush">
+            {nocache}
+                {foreach from=$USER_DETAILS_VALUES key=name item=value}
+                    <li class="list-group-item">
+                        <div class="d-flex flex-column">
+                            <strong class="header">{$name}</strong>
+                            <div class="text-body-secondary ms-1">{$value}</div>
                         </div>
-                    </div>
-                    {/foreach}
-                    {/nocache}
-                </div>
-            </div>
-            {if isset($FORUM_GRAPH)}
-            <div class="ui segment">
-                <h3 class="ui header">{$FORUM_GRAPH}</h3>
-                <div id="chartWrapper">
+                    </li>
+                {/foreach}
+            {/nocache}
+        </ul>
+
+
+        {if isset($FORUM_GRAPH)}
+            <div class="mt-3">
+                <h5 class="mx-3">{$FORUM_GRAPH}</h5>
+                <div id="chartWrapper" class="mx-3">
                     <canvas id="dataChart" width="100%" height="40"></canvas>
                 </div>
             </div>
-            {/if}
-        </div>
+        {/if}
     </div>
-</div>
-
-{include file='footer.tpl'}
+{/block}

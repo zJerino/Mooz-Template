@@ -1,73 +1,74 @@
-{include file='header.tpl'}
-{include file='navbar.tpl'}
+{extends file="base/user.tpl"}
 
-<h2 class="ui header">
-    {$TITLE}
-</h2>
-
-{if isset($ERROR)}
-<div class="ui error icon message">
-    <i class="x icon"></i>
-    <div class="content">
-        <div class="header">{$ERROR_TITLE}</div>
-        {$ERROR}
-    </div>
-</div>
-{/if}
-{if isset($ERRORS)}
-<div class="ui error icon message">
-    <i class="x icon"></i>
-    <div class="content">
-        <ul class="list">
-            {foreach from=$ERRORS item=error}
-            <li>{$error}</li>
-            {/foreach}
-        </ul>
-    </div>
-</div>
-{/if}
-
-<div class="ui stackable grid" id="tfa-code">
-    <div class="ui centered row">
-        <div class="ui six wide tablet four wide computer column">
-            {include file='user/navigation.tpl'}
-        </div>
-        <div class="ui ten wide tablet twelve wide computer column">
-            <div class="ui segment">
-                <h3 class="ui header">{$TWO_FACTOR_AUTH}</h3>
-                {if isset($TFA_SCAN_CODE_TEXT)}
-                <div class="ui form">
-                    <div class="field">
-                        {$TFA_SCAN_CODE_TEXT}
-                        <br />
-                        <img src="{$IMG_SRC}">
-                    </div>
-                </div>
-                <div class="ui info message">
-                    {$TFA_CODE_TEXT} <strong>{$TFA_CODE}</strong>
-                </div>
-                <a class="ui primary button" href="{$LINK}">{$NEXT}</a>
-                <form class="ui form" action="{$CANCEL_LINK}" method="post">
-                    <input type="hidden" name="token" value="{$TOKEN}">
-                    <input type="submit" value="{$CANCEL}" class="ui red button">
-                </form>
-                {else}
-                <form class="ui form" action="" method="post" id="form-tfa-code">
-                    <div class="field">
-                        {$TFA_ENTER_CODE}
-                        <input type="text" name="tfa_code">
-                    </div>
-                    <input type="hidden" name="token" value="{$TOKEN}">
-                    <input type="submit" class="ui primary button" value="{$SUBMIT}">
-                    <form class="ui form" action="{$CANCEL_LINK}" method="post">
-                        <input type="hidden" name="token" value="{$TOKEN}">
-                        <input type="submit" value="{$CANCEL}" class="ui negative button">
-                    </form>
-                </form>
-                {/if}
+{block name=content}
+    {if isset($ERROR)}
+        <div class="bg-body border-3 border-start border-danger d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+            <div class="text-danger text-center rounded-3 fv-small fw-bold me-3">
+                <i class="bi bi-x-circle-fill fs-2"></i>
+            </div>
+            <div class="text-body-secondary">
+                <strong class="text-danger">{$ERROR_TITLE}</strong> {$ERROR}
             </div>
         </div>
-    </div>
-</div>
+    {/if}
+    {if isset($ERRORS)}
+        <div class="bg-body border-3 border-start border-danger d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+            <div class="text-danger text-center rounded-3 fv-small fw-bold me-3">
+                <i class="bi bi-x-circle-fill fs-2"></i>
+            </div>
+            <div class="text-body-secondary">
+                <ul class="list">
+                    {foreach from=$ERRORS item=error}
+                    <li>{$error}</li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
 
-{include file='footer.tpl'}
+    <div class="bg-body shadow-sm rounded-3 py-3 d-flex flex-column mb-3">                
+        <div class="mx-3 mb-3 d-flex align-items-center">
+            <h5 class="me-auto">{$TWO_FACTOR_AUTH}</h5>
+        </div>
+
+        {if isset($TFA_SCAN_CODE_TEXT)}
+            <div class="d-flex mx-3 mb-1">
+                <p class="text-body-secondary">{$TFA_SCAN_CODE_TEXT}</p>
+            </div>
+
+            <div class="mx-auto d-flex">
+                <img src="{$IMG_SRC}" style="width: 10rem; width: 10rem">
+            </div>
+
+            <div class="bg-body shadow-sm rounded-3 p-3 border-3 border-info border-start text-body-secondary mb-2 mx-3 mb-3">
+                {$TFA_CODE_TEXT} <strong class="text-body">{$TFA_CODE}</strong>
+            </div>
+            
+            <form class="mx-3" action="{$CANCEL_LINK}" method="post">
+                <input type="hidden" name="token" value="{$TOKEN}">
+                <div class="d-flex mx-auto mx-md-0 flex-column flex-md-row">
+                    <a class="btn btn-primary rounded-5" href="{$LINK}">{$NEXT}</a>                
+                    <input type="submit" value="{$CANCEL}" class="btn btn-danger rounded-5 ms-0 ms-md-2 mt-2 mt-md-0">
+                </div>
+            </form>
+        {else}
+            <form class="mx-3" action="" method="post" id="form-tfa-code">
+                <div class="mb-3">
+                    <label for="tfa-code" class="form-label">{$TFA_ENTER_CODE}</label>
+                    <input type="text" name="tfa_code" id="tfa-code" class="form-control">
+                </div>
+
+                <input type="hidden" name="token" value="{$TOKEN}">
+
+                <div class="d-flex mx-auto mx-md-0 flex-column flex-md-row">
+                    <input type="submit" class="btn btn-primary rounded-5" value="{$SUBMIT}">
+                    <button class="btn btn-danger rounded-5 ms-0 ms-md-2 mt-2 mt-md-0" type="botton" onclick="$('#form-cancel').submit();">{$CANCEL}</button>
+                </div>
+            </form>
+            <form action="{$CANCEL_LINK}" method="post" id="form-cancel">
+                <input type="hidden" name="token" value="{$TOKEN}">
+            </form>
+        {/if}
+
+    </div>
+{/block}

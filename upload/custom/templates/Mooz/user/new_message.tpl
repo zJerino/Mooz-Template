@@ -1,58 +1,43 @@
-{include file='header.tpl'}
-{include file='navbar.tpl'}
+{extends file="base/user.tpl"}
 
-<h2 class="ui header">
-    {$TITLE}
-</h2>
-
-{if isset($ERROR)}
-<div class="ui error icon message">
-    <i class="x icon"></i>
-    <div class="content">
-        <div class="header">{$ERROR_TITLE}</div>
-        {$ERROR}
-    </div>
-</div>
-{/if}
-
-<div class="ui stackable grid" id="new-message">
-    <div class="ui centered row">
-        <div class="ui six wide tablet four wide computer column">
-            {include file='user/navigation.tpl'}
-        </div>
-        <div class="ui ten wide tablet twelve wide computer column">
-            <div class="ui segment">
-                <h3 class="ui header">{$NEW_MESSAGE}</h3>
-                <form class="ui form" action="" method="post" id="form-new-message">
-                    <div class="field">
-                        <label for="inputTitle">{$MESSAGE_TITLE}</label>
-                        <input type="text" name="title" id="inputTitle" placeholder="{$MESSAGE_TITLE}"
-                            value="{$MESSAGE_TITLE_VALUE}">
-                    </div>
-                    <div class="field">
-                        <label for="InputTo">{$TO}</label>
-                        <div class="ui fluid multiple search selection dropdown">
-                            <input name="to" id="InputTo" type="hidden" {if isset($TO_USER)}value="{$TO_USER}" {/if}>
-                            <i class="dropdown icon"></i>
-                            <div class="default text">{$TO}</div>
-                            <div class="menu">
-                                {if count($ALL_USERS) > 0}
-                                {foreach from=$ALL_USERS item="username"}
-                                <div class="item" data-value="{$username}">{$username}</div>
-                                {/foreach}
-                                {/if}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <textarea name="content" id="reply"></textarea>
-                    </div>
-                    <input type="hidden" name="token" value="{$TOKEN}">
-                    <input type="submit" class="ui primary button" value="{$SUBMIT}">
-                </form>
+{block name=content}
+    {if isset($ERROR)}
+        <div class="bg-body border-3 border-start border-danger d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+            <div class="text-danger text-center rounded-3 fv-small fw-bold me-3">
+                <i class="bi bi-x-circle-fill fs-2"></i>
             </div>
+            <div class="text-body-secondary"> <strong class="text-danger">{$ERROR_TITLE}</strong> {$ERROR}</div>
         </div>
-    </div>
-</div>
+    {/if}
 
-{include file='footer.tpl'}
+    <div class="bg-body shadow-sm rounded-3 py-3 d-flex flex-column mb-3">                
+        <div class="mx-3 d-flex">
+            <h5>{$NEW_MESSAGE}</h5>
+        </div>
+
+        <form action="" method="post" id="form-new-message">
+            <div class="mb-3 mx-3">
+                <label for="inputTitle" class="form-label">{$MESSAGE_TITLE}</label>
+                <input type="text" class="form-control" name="title" id="inputTitle" placeholder="{$MESSAGE_TITLE}" value="{$MESSAGE_TITLE_VALUE}">
+            </div>
+
+            <div class="mb-3 mx-3">
+                <label for="InputTo" class="form-label">{$TO}</label>
+
+                <select name="to" id="InputTo" class="form-select" multiple>
+                    {if count($ALL_USERS) > 0}
+                        {foreach from=$ALL_USERS item="username"}
+                            <option value="{$username}">{$username}</option>
+                        {/foreach}
+                    {/if}
+                </select>
+            </div>
+
+            <div class="mb-3 mx-3">
+                <textarea name="content" id="reply" class="form-control"></textarea>
+            </div>
+            <input type="hidden" name="token" value="{$TOKEN}">
+            <input type="submit" class="btn btn-primary rounded-5 px-5 mx-3" value="{$SUBMIT}">
+        </form>
+    </div>
+{/block}

@@ -110,18 +110,16 @@
                             <hr class="w-100">
                         </div>
 
-                        <div class="row">
+                        <div class="d-flex flex-column">
                             {foreach $OAUTH_PROVIDERS as $name => $meta}
-                                <div class="col-12 col-md-3">
-                                    <a href="{$meta.url}" class="btn btn-secondary w-100" {if $meta.button_css}style="{$meta.button_css}"{/if}>
-                                        {if $meta.logo_url}
-                                            <img src="{$meta.logo_url}" {if $meta.logo_css}style="{$meta.logo_css}"{/if} alt="{$name|ucfirst}">
-                                        {elseif $meta.icon}
-                                            <i class="{$meta.icon} fa-lg"></i>
-                                        {/if}
-                                        <span {if $meta.text_css}style="{$meta.text_css}"{/if}>{$meta.continue_with}</span>
-                                    </a>
-                                </div>
+                                <a href="{$meta.url}" class="btn btn-secondary border-0 w-100 rounded-5 {if (!$meta@last)}mb-2{/if}" {if $meta.button_css}style="{$meta.button_css}"{/if}>
+                                    {if $meta.logo_url}
+                                        <img src="{$meta.logo_url}" {if $meta.logo_css}style="{$meta.logo_css}"{/if} alt="{$name|ucfirst}">
+                                    {elseif $meta.icon}
+                                        <i class="{$meta.icon} fa-lg"></i>
+                                    {/if}
+                                    <span {if $meta.text_css}style="{$meta.text_css}"{/if}>{$meta.continue_with}</span>
+                                </a>
                             {/foreach}
                         </div>
                     {/if}
