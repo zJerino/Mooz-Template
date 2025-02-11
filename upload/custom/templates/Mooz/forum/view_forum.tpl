@@ -99,7 +99,7 @@
                     <div class="container-fluid">
                         <div class="row align-items-center">
                             <div class="col-1 d-flex"><i class="bi bi-chat fs-4 mx-auto"></i></div>
-                            <div class="col-5">
+                            <div class="col-8">
                                 <div class="d-flex flex-column">
                                     <div class="d-flex">
                                             {if isset($discussion.labels) && count($discussion.labels)}
@@ -114,7 +114,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6 d-flex">
+                            <div class="col-3 d-flex">
                                 <div class="d-flex align-items-center ms-auto">
                                     <img class="rounded-5 me-2" src="{$discussion.last_reply_avatar}" style="width: 1.5em;height: 1.5em">
                                     <div class="d-flex flex-column w-100">
@@ -138,7 +138,7 @@
                 <div class="container-fluid">
                     <div class="row align-items-center">
                         <div class="col-1 d-flex"><i class="bi bi-chat fs-4 mx-auto"></i></div>
-                        <div class="col-5">
+                        <div class="col-8">
                             <div class="d-flex flex-column">
                                 <div class="d-flex">
                                         {if isset($discussion.labels) && count($discussion.labels)}
@@ -153,7 +153,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6 d-flex">
+                        
+                        <div class="col-3 d-flex">
                             <div class="d-flex align-items-center ms-auto">
                                 <img class="rounded-5 me-2" src="{$discussion.last_reply_avatar}" style="width: 1.5em;height: 1.5em">
                                 <div class="d-flex flex-column w-100">

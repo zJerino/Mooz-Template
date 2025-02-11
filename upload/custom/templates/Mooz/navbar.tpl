@@ -1,13 +1,14 @@
 <div id="app-header" class="position-relative" {if isset($BANNER_IMAGE)} style="background-image:url('{$BANNER_IMAGE}')" {/if}>
     <nav id="app-header-userbar" class="overflow-auto">
       <div class="container d-flex flex-row align-items-center">
-        <a class="d-inline-block p-2 px-3 text-light" type="button" onclick="toggleDarkLightMode()"><i class="bi bi-palette2"></i></a>      
+        <a class="d-inline-block p-2 px-3 text-light" type="button" onclick="toggleDarkLightMode()"><i class="bi bi-palette2"></i></a>
+        
         {foreach from=$USER_SECTION key=name item=item}
             {if isset($item.items)}
 
                 <div class="z-1{if ($name == 'alerts')} me-auto{/if}">
                     {if $name == 'account'}
-                        <a data-bs-title="{$item.title}" data-body-class="p-0" data-element="#popover-user" data-bs-toggle="popover" data-bs-trigger="focus" tabindex="0" data-bs-html="true" class="d-inline-block p-2 px-3 text-light ASdDWYf text-decoration-none" type="button">{$item.icon} <span>{$item.title}</span></a>
+                        <a data-bs-title="{$item.title}" data-body-class="p-0 FSedGGY3" data-element="#popover-user" data-bs-toggle="popover" data-bs-trigger="focus" tabindex="0" data-bs-html="true" class="d-inline-block p-2 px-3 text-light ASdDWYf text-decoration-none" type="button">{$item.icon} <span>{$item.title}</span></a>
                     {else}
                         <a class="d-inline-block p-2 px-3 text-light dropdown-toggle" type="button" data-bs-toggle="modal" data-bs-target="#modal-user-list-{$name}" data-user-item="{$name}">{$item.icon}</a>
                     {/if}
@@ -36,17 +37,12 @@
             <ul id="app-ns-items" class="list-unstyled m-0">
                 {foreach from=$NAV_LINKS key=name item=item}
                     {if isset($item.items)}
-                        <div class="item">
-                            <div class="header">{$item.title} <span class="icon">{$item.icon}</span></div>
-                            <div class="menu">
-                                {foreach from=$item.items item=dropdown}
-                                    <a class="item" href="{$dropdown.link}" target="{$dropdown.target}">{$dropdown.icon} {$dropdown.title}</a>
-                                {/foreach}
-                            </div>
-                        </div>
+                        <li class="{if isset($item.active)}active{/if} cursor-pointer"  data-bs-title="{$item.title}" data-body-class="p-0 FSedGGY3" data-element="#popover-navbar-{$name}" data-bs-toggle="popover" data-bs-trigger="focus" tabindex="0" data-bs-html="true">
+                            <a>{$item.icon} {$item.title} <i class="bi bi-chevron-down ms-2"></i></a>
+                        </li>
                     {else}
                         <li {if isset($item.active)}class="active"{/if}>
-                            <a href="{$item.link}" target="{$item.target}">{$item.icon} {$item.title}</a>
+                            <a href="{$item.link}" target="{$item.target}">{$item.icon} <span class="text-reset {if !empty($item.icon)}ms-1{/if}">{$item.title}</span></a>
                         </li>
                     {/if}
                 {/foreach}
@@ -54,7 +50,7 @@
           </div>
         </div>
         
-        <button class="bg-transparent border-0 h-100 m-0 my-auto navbtn rounded-3 d-flex d-sm-none">
+        <button class="bg-transparent border-0 h-100 m-0 my-auto navbtn rounded-0 d-flex d-sm-none" data-bs-toggle="offcanvas" href="#offcanvasNav" role="button" aria-controls="offcanvasNav">
           <i class="fa fa-bars"></i>
         </button>
       </div>
@@ -65,6 +61,19 @@
     </div>
 </div>
 
+{foreach from=$NAV_LINKS key=name item=item}
+    {if isset($item.items)}
+        <div class="d-none">
+            <div id="popover-navbar-{$name}" class="d-flex flex-column">
+                <div class="list-group list-group-flush mb-2">
+                    {foreach from=$item.items item=dropdown}
+                        <a class="list-group-item list-group-item-action" href="{$dropdown.link}" target="{$dropdown.target}">{$dropdown.icon} {$dropdown.title}</a>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    {/if}
+{/foreach}
 
 {foreach from=$USER_SECTION key=name item=item}
     {if isset($item.items)}
@@ -123,11 +132,35 @@
             </div>
         {/if}
     {/if}
-{/foreach}    
+{/foreach} 
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNav" aria-labelledby="offcanvasNavLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" data-href="{$SITE_HOME}" id="offcanvasNavLabel">{$SITE_NAME}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body px-0">
+    <div class="list-group list-group-flush">
+        {foreach from=$NAV_LINKS key=name item=item}
+            {if isset($item.items)}
+                <a href="{$item.link}" target="{$item.target}" class="list-group-item list-group-item-action d-flex {if isset($item.active)}active{/if}" data-bs-toggle="collapse" data-bs-target="#navOCCollapse-{$name}" aria-expanded="false" aria-controls="navOCCollapse-{$name}">{$item.icon} {$item.title} <div class="ms-auto"><i class="bi bi-chevron-down"></i></div></a>
+                <div class="collapse" id="navOCCollapse-{$name}">
+                    <div class="list-group list-group-flush">
+                        {foreach from=$item.items item=dropdown}
+                            <a class="list-group-item list-group-item-action ps-4" href="{$dropdown.link}" target="{$dropdown.target}">{$dropdown.icon} {$dropdown.title}</a>
+                        {/foreach}
+                    </div>
+                </div>
+            {else}
+                <a href="{$item.link}" target="{$item.target}" class="list-group-item list-group-item-action {if isset($item.active)}active{/if}">{$item.icon} {$item.title}</a>                
+            {/if}
+        {/foreach}
+    </div>
+  </div>
+</div>
+
 <div id="app-content">
-{if (isset($LOGGED_IN_USER) && $LOGGED_IN_USER.username == 'zJerino')}
-    {debug}
-{/if}
+
 <div class="container">
     <div id="ie-message">
         <div class="bg-body border-3 border-start border-danger d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2">

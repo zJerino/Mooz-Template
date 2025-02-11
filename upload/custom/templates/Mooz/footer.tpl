@@ -1,5 +1,7 @@
 
 </div>
+
+
 {* 
 <div class="ui inverted vertical footer segment" id="footer">
     <div class="ui container">
@@ -123,6 +125,8 @@
     </div>
   </div>
 </div>
+</div>
+<div class="toast-container position-fixed bottom-0 start-0 p-3" id="app-toast-container"></div>
 
 {if isset($GLOBAL_WARNING_TITLE)}
 <div class="ui medium modal" id="modal-acknowledge">
@@ -162,10 +166,10 @@
     }
 
     function toggleDarkLightMode() {
-
         $.post("{$DARK_LIGHT_MODE_ACTION}", { token: "{$DARK_LIGHT_MODE_TOKEN}" })
-            .done(function () {
-                document.body.setAttribute('data-bs-theme', (statusDarkMode() == 'light' ? 'dark' : 'light'));
+            .done(function (e) {
+                document.body.dataset.bsTheme = (statusDarkMode() == 'light' ? 'dark' : 'light');
+                window.localStorage.setItem('mz-theme', (statusDarkMode() == 'light' ? 'dark' : 'light'));
             });
 
         return false;

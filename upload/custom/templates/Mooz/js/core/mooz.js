@@ -47,8 +47,158 @@ document.addEventListener("DOMContentLoaded", () => {
         h['.popover-header'] = ppTitle;
       }
       PopoverI.setContent(h);
+      return PopoverI;
     }
   })
+
+  window.jisdj3uj = popoverList;
+
+  /**
+   * Bs Toast
+   */
+  const toastContainer = $('#app-toast-container');
+
+  window.toast = function(option) {
+    let opts = {
+      title: undefined,
+      img: undefined,
+      timeago: undefined,
+      description: undefined,
+      closeable: true,
+      animation: true,
+      autohide: true,
+      delay: 5000,
+      show: true,
+      icon: undefined,
+      customClass: [],
+      ...option
+    }
+
+    if (opts.message != undefined) opts.description = opts.message;
+    if (opts.content != undefined) opts.description = opts.content;
+
+    let elToast = document.createElement('div');
+    elToast.setAttribute('role', 'alert');
+    elToast.setAttribute('aria-live', 'assertive');
+    elToast.setAttribute('aria-atomic', 'true');
+    elToast.classList.add('toast', ...opts.customClass);
+
+    /**
+     * Header
+     */
+    if (opts.title != undefined || opts.title != undefined || opts.timeago != undefined) {
+      let elToastH = document.createElement('div');
+      elToastH.classList.add('toast-header');
+
+      /**
+       * Imagen
+       */
+      if (opts.img != undefined) {
+        let elToastHIMG = document.createElement('img');
+        elToastHIMG.src = opts.img;
+        elToastH.appendChild(elToastHIMG);
+      }
+
+      /**
+       * Titulo
+       */
+      if (opts.title != undefined) {
+        let elToastHTitle = document.createElement('strong');
+        elToastHTitle.classList.add('me-auto');
+        elToastHTitle.innerText = opts.title;
+        elToastH.appendChild(elToastHTitle);
+      }
+
+      /**
+       * Timeago
+       */
+      if (opts.timeago != undefined) {
+        let elToastHTimeago = document.createElement('small');
+        elToastHTimeago.innerText = opts.timeago;
+        elToastH.appendChild(elToastHTimeago);
+      }
+
+      /**
+       * Closeable
+       */
+      if (opts.closeable == true) {
+        let elToastHClose = document.createElement('button');
+        elToastHClose.classList.add('btn-close');
+        elToastHClose.setAttribute('type', 'button');
+        elToastHClose.setAttribute('aria-label', 'close');
+        elToastHClose.dataset['bsDismiss'] = 'toast';
+        elToastH.appendChild(elToastHClose);
+      }
+
+      elToast.appendChild(elToastH);
+
+      
+      /**
+       * Body
+       */
+      if (opts.description != undefined) {
+        let elToastB = document.createElement('div');
+        elToastB.classList.add('toast-body');        
+        elToastB.innerText = opts.description;
+        elToast.appendChild(elToastB);
+      }
+    } else {
+      let elToastBC = document.createElement('div');
+      elToastBC.classList.add('d-flex');
+
+      /**
+       * Body
+       */
+      if (opts.description != undefined) {
+        let elToastB = document.createElement('div');
+        elToastB.classList.add('toast-body', 'd-flex', 'align-items-center');
+        /**
+         * Icon
+         */
+        if (opts.icon != undefined) {
+          let elToastBIcon = document.createElement('i');
+          elToastBIcon.classList.add('bi', 'bi-' + opts.icon, 'me-1', 'fs-4');
+          elToastB.appendChild(elToastBIcon);
+        }
+
+        elToastB.innerHTML += opts.description;
+        elToastBC.appendChild(elToastB);
+      }
+
+      /**
+       * Closeable
+       */
+      if (opts.closeable == true) {
+        let elToastBClose = document.createElement('button');
+        elToastBClose.classList.add('btn-close', 'me-2', 'm-auto');
+        elToastBClose.setAttribute('type', 'button');
+        elToastBClose.setAttribute('aria-label', 'close');
+        elToastBClose.dataset['bsDismiss'] = 'toast';
+        elToastBC.appendChild(elToastBClose);
+      }
+      elToast.classList.add('align-items-center');
+      elToast.append(elToastBC);
+    }
+
+    toastContainer.append(elToast);
+
+    let mzbsToast = bootstrap.Toast.getOrCreateInstance(elToast);
+
+    /**
+     * Config
+     */
+    mzbsToast._config.animation = opts.animation;
+    mzbsToast._config.autohide = opts.autohide;
+    mzbsToast._config.delay = opts.delay;
+
+    if (opts.show == true) mzbsToast.show();
+
+    return {
+      element: elToast,
+      config: opts,
+      bsToast: mzbsToast
+    };
+  }
 
   /**
    * Mz Links
@@ -140,4 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+
+
 });

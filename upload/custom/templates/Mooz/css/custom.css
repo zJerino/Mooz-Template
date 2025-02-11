@@ -240,15 +240,20 @@ body.dark .white {
 [data-href], .cursor-pointer {
     cursor: pointer;
 }
+.mz-portal {
+    background-position: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
 
 #app-base {
   background-color: #efefef;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  max-width: 100vw;
+  min-height: 100vh;
 }
-#app-base > * {
+#app-base > #app-content {
   flex-grow: 3;
 }
 #app-base > #app-header {
@@ -351,6 +356,28 @@ body.dark .white {
     border-top: solid 0.25rem var(--primary-color);
     border-image: linear-gradient(45deg, var(--primary-color-2), var(--primary-color));
     border-image-width: 0.25rem auto 0 0;
+}
+
+.logo-pulse {
+  animation: pulse 4s infinite;    
+}
+.FSedGGY3 {
+    min-width: 10rem;
+}
+.YURFseY6::after {
+    content: " ";
+    width: 0%;
+    height: 0.1rem;
+    display: block;
+    background-color: var(--bs-body-color);
+    border-radius: 1rem;
+    margin: 0 auto;
+    transition: .3s;
+}
+
+.YURFseY6:hover::after {
+    width: 80%;
+    max-width: 3rem;
 }
 
 @keyframes pulse {
@@ -471,4 +498,8 @@ body.dark .white {
 }
 .forum_post > * {
     margin: 0;
+}
+
+[aria-expanded="true"] .bi-chevron-down::before {
+    content: '\F286';
 }

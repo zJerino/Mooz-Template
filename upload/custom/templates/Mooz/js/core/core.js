@@ -17,15 +17,11 @@ function copy(element) {
         document.execCommand('copy');
     }
 
-    $('body').toast({
-        showIcon: 'checkmark',
+    toast({
         message: copied,
-        class: 'success',
-        progressUp: true,
-        displayTime: 6000,
-        showProgress: 'bottom',
-        pauseOnHover: false,
-        position: 'bottom left',
+        icon: 'check-circle-fill',
+        customClass: ['text-bg-success'],
+        delay: 6000,
     });
 }
 
