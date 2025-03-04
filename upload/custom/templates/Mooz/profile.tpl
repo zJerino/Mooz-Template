@@ -112,7 +112,7 @@
                         
                     {foreachelse}
                         <div class="bg-body-tertiary border-3 border-start border-info d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
-                            <div class="text-info text-center rounded-3 fv-small fw-bold me-3">
+                            <div class="text-info text-center rounded-3 fv-petite fw-bold me-3">
                                 <i class="bi bi-exclamation-circle-fill fs-2"></i>
                             </div>
                             <div class="text-body-secondary">
@@ -128,7 +128,7 @@
                     {/if}
                 {else}
                     <div class="bg-body border-3 border-start border-danger d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
-                        <div class="text-danger text-center rounded-3 fv-small fw-bold me-3">
+                        <div class="text-danger text-center rounded-3 fv-petite fw-bold me-3">
                             <i class="bi bi-x-circle-fill fs-2"></i>
                         </div>
                         <div class="text-body-secondary">
@@ -141,7 +141,7 @@
 
         <div class="col">
             <div class="bg-body shadow-sm py-3 mb-3 rounded-3 d-flex flex-column">
-                <div class="text-primary text-center rounded-top-3 px-3 fv-small mb-2 fw-bold">
+                <div class="text-primary text-center rounded-top-3 px-3 fv-petite mb-2 fw-bold">
                     {$ABOUT}
                 </div>
                 <ul class="list-group list-group-flush mb-0">
@@ -158,7 +158,7 @@
 
             {if (isset($INTEGRATIONS) && count($INTEGRATIONS) && isset($INTEGRATIONS.Minecraft))}
                 <div class="bg-body shadow-sm py-3 rounded-3 d-flex flex-column mb-3">
-                    <div class="text-primary text-center rounded-top-3 px-3 fv-small fw-bold mb-2">
+                    <div class="text-primary text-center rounded-top-3 px-3 fv-petite fw-bold mb-2">
                         {$mzlang.mc_account}
                     </div>
                     <img data-bs-toggle="tooltip" title="{$INTEGRATIONS.Minecraft.username}" src="https://mc-heads.net/body/{$INTEGRATIONS.Minecraft.identifier}/left" alt="" class="mx-auto" style="height: {$mc_integration_size};object-fit: contain;width: 100%;">
@@ -168,7 +168,7 @@
 
             {if (isset($INTEGRATIONS) && count($INTEGRATIONS))}
                 <div class="bg-body shadow-sm p-3 rounded-3 d-flex flex-column mb-3">
-                    <div class="text-primary text-center rounded-top-3 mb-2 fv-small fw-bold">
+                    <div class="text-primary text-center rounded-top-3 mb-2 fv-petite fw-bold">
                         {$mzlang.integrations}
                     </div>
                     <div class="row">

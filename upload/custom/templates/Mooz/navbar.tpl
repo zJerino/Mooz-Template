@@ -28,7 +28,7 @@
     <nav id="app-header-navbar" class="navbar text-light">
       <div class="container" style="align-items: normal;">
         <a class="text-light navbar-brand" href="{$SITE_HOME}">
-          <img id="app-navbar-logo" src="https://cuberico.cloud/assets/latin-foro/2020/logo.png" />
+          <img id="app-navbar-logo" src="{if (isset($LOGO_IMAGE))}{$LOGO_IMAGE}{else}https://namelessmc.com/uploads/avatars/defaults/15a1d8fbaef6dd_olqikfemgjnhp.png{/if}" />
           <strong>{$SITE_NAME}</strong>
         </a>
         
@@ -57,7 +57,7 @@
     </nav>
 
     <div id="app-header-info" class="d-flex justify-content-center align-items-center">
-      <a href="{$SITE_HOME}"><img id="app-header-logo" src="https://cuberico.cloud/assets/latin-foro/2020/logo.png" /></a>
+      <a href="{$SITE_HOME}"><img id="app-header-logo" src="{if (isset($LOGO_IMAGE))}{$LOGO_IMAGE}{else}https://namelessmc.com/uploads/avatars/defaults/15a1d8fbaef6dd_olqikfemgjnhp.png{/if}" /></a>
     </div>
 </div>
 
@@ -112,7 +112,7 @@
             </div>
         {else}
             <div class="d-none">
-                <div id="popover-user">
+                <div id="popover-user" class="d-flex flex-column">
                     <div class="list-group list-group-flush mb-2">
                         {foreach from=$item.items item=dropdown}
                             {if isset($dropdown.separator)}

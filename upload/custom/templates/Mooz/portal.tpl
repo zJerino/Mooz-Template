@@ -1,16 +1,18 @@
 {include file='header.tpl'}
-<div id="app-content" class="mz-portal py-0 d-flex" style="background-image: url('{$BANNER_IMAGE}')">
+<div id="app-content" class="mz-portal py-0 d-flex" style="background-color: var(--bs-secondary-bg);background-image: linear-gradient(to top, var(--bs-secondary-bg), transparent), url('{$BANNER_IMAGE}');">
     <div class="d-flex flex-column w-100">
-        <div class="d-flex d-md-none align-items-center bg-dark bg-opacity-50 flex-row px-5 py-1">
+        <div class="d-flex d-md-none align-items-center bg-body bg-opacity-50 flex-row px-5 py-1">
             <a href="{$SITE_HOME}" class="fw-bold text-body text-decoration-none">{$SITE_NAME}</a>
             <div class="ms-auto p-2" data-bs-toggle="offcanvas" href="#offcanvasNav" role="button" aria-controls="offcanvasNav">
                 <i class="bi bi-list fs-5"></i>
             </div>
         </div>
-        <div class="d-none d-md-flex align-items-center bg-dark bg-opacity-50 flex-row mx-auto px-5 py-1 rounded-bottom-5">
+        <div class="d-none d-md-flex align-items-center bg-body bg-opacity-50 flex-row mx-auto pe-5 py-1 rounded-bottom-5" style="padding-left: 3rem">
+            {assign var="centerLink" value=(((count($NAV_LINKS) - 1) / 2) + 1)}
+
             {foreach from=$NAV_LINKS item=item key=key name=name}
                 {if isset($item.items)}
-                    <a href="#" class="cursor-pointer p-2 text-body text-decoration-none YURFseY6" data-bs-title="{$item.title}" data-body-class="p-0 FSedGGY3" data-element="#popover-navbar-{$key}" data-bs-toggle="popover" data-bs-trigger="focus" tabindex="0" data-bs-html="true">{$item.title} <i class="bi bi-chevron-down ms-2"></i></a>
+                    <a href="#" class="cursor-pointer p-2 text-body text-decoration-none YURFseY6" data-bs-title="{$item.title}" data-body-class="p-0 FSedGGY3" data-element="#popover-navbar-{$key}" data-bs-toggle="popover" data-bs-trigger="focus" tabindex="0" data-bs-html="true" style="order: {if $item@iteration >= $centerLink}{$item@iteration + 1}{else}{$item@iteration + 1}{/if}">{$item.title} <i class="bi bi-chevron-down ms-2"></i></a>
                     <div class="d-none">
                         <div id="popover-navbar-{$key}" class="d-flex flex-column">
                             <div class="list-group list-group-flush mb-2">
@@ -21,10 +23,10 @@
                         </div>
                     </div>
                 {else}
-                    {if (($item@total / 2) + 0.5 == $item@iteration)}
-                        <a href="{$item.link}" class="btn btn-primary bg-opacity-100 rounded-5 px-4 mx-2" id="btn-center-nav">{$item.icon} {$item.title}</a>
+                    {if ($key == $PORTAL_ITEM || $PORTAL_ITEM == null && (($item@total / 2) + 0.5 == $item@iteration))}
+                        <a href="{$item.link}" class="btn btn-primary bg-opacity-100 rounded-5 px-4 mx-2" id="btn-center-nav" style="order: {$centerLink}">{if empty($item.icon)} <i class="bi bi-star"></i> {else} {$item.icon} {/if} {$item.title}</a>
                     {else}
-                        <a href="{$item.link}" class="p-2 text-body text-decoration-none YURFseY6">{$item.title}</a>
+                        <a href="{$item.link}" class="p-2 text-body text-decoration-none YURFseY6" style="order: {if $item@iteration >= $centerLink}{$item@iteration + 1}{else}{$item@iteration + 1}{/if}">{$item.title}</a>
                     {/if}
                 {/if}
             {/foreach}
@@ -33,11 +35,10 @@
             <div class="d-flex flex-column w-100">
             
                 <div class="mt-5 mx-auto d-flex flex-column align-items-center">
-                    <img src="https://cuberico.cloud/assets/latin-foro/2020/logo.png" style="transform: scale(1.1);width: 10rem;height: 10rem" class="mb-4 mx-auto position-relative logo-pulse">
+                    <img src="{if (isset($LOGO_IMAGE))}{$LOGO_IMAGE}{else}https://namelessmc.com/uploads/avatars/defaults/15a1d8fbaef6dd_olqikfemgjnhp.png{/if}" style="transform: scale(1.1);width: 10rem;height: 10rem" class="mb-4 mx-auto position-relative logo-pulse">
                     <div class="display-1 fw-bold"> {$SITE_NAME} </div>
-                    <p class="text-body-secondary px-3 text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid officiis, ut nobis incidunt esse deleniti quas maxime necessitatibus quaerat fugiat cum consectetur id architecto nam veniam recusandae beatae modi atque.</p>
+                    <div class="text-body-secondary px-3 text-center">{$CONTENT_PORTAL}</div>
                 </div>
-
                 {if isset($MINECRAFT) && isset($SERVER_QUERY)}
                     <div class="mx-auto my-2">
                         <div class="rounded-3 bg-body bg-opacity-50 py-2 px-3 d-flex align-items-center" onclick="copy('#default-server-ip')" data-bs-toggle="tooltip" title="{$CLICK_TO_COPY_TOOLTIP}">
@@ -51,7 +52,6 @@
                         </div>
                     </div>
                 {/if}
-
             </div>
         </div>
     </div>
@@ -82,6 +82,8 @@
     </div>
   </div>
 </div>
+
+<div class="toast-container position-fixed bottom-0 start-0 p-3" id="app-toast-container"></div>
 
 {foreach from=$TEMPLATE_JS item=script}
 {$script}

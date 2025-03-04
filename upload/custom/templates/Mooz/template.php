@@ -33,7 +33,7 @@ class Mooz_Template extends TemplateBase {
 
         parent::__construct($template['name'], $template['version'], $template['nl_version'], $template['author']);
 
-        $this->_settings = ROOT_PATH . '/custom/templates/DefaultRevamp/template_settings/settings.php';
+        $this->_settings = ROOT_PATH . '/custom/templates/' . $template['name'] . '/template_settings/settings.php';
 
         $this->assets()->include([
             AssetTree::FONT_AWESOME,
@@ -43,6 +43,7 @@ class Mooz_Template extends TemplateBase {
 
         $smarty->assign('TEMPLATE', $template);
 
+        // Languages
         $smarty->assign('mzlang', array(
             'mc_account' => $language->get('user', 'minecraft_username'),
             'integrations' => $language->get('admin', 'integrations'),
@@ -51,46 +52,40 @@ class Mooz_Template extends TemplateBase {
         // Other variables
         $smarty->assign('FORUM_SPAM_WARNING_TITLE', $language->get('general', 'warning'));
 
-        $cache->setCache('template_settings');
-        $smartyDarkMode = false;
-        $smartyNavbarColour = '';
-
-        if (defined('DARK_MODE') && DARK_MODE == '1') {
-            $smartyDarkMode = true;
-        }
-
-        if ($cache->isCached('navbarColour')) {
-            $navbarColour = $cache->retrieve('navbarColour');
-
-            if ($navbarColour != 'white') {
-                $smartyNavbarColour = $navbarColour . ' inverted';
-            }
-        }
-
-        $smarty->assign([
-            'DEFAULT_REVAMP_DARK_MODE' => $smartyDarkMode,
-            'DEFAULT_REVAMP_NAVBAR_EXTRA_CLASSES' => $smartyNavbarColour
-        ]);
-
         $this->_template = $template;
         $this->_language = $language;
         $this->_user = $user;
         $this->_pages = $pages;
+        $this->_smarty = $smarty;
     }
 
     public function onPageLoad() {
+        // Page load
         $page_load = microtime(true) - PAGE_START_TIME;
         define('PAGE_LOAD_TIME', $this->_language->get('general', 'page_loaded_in', ['time' => round($page_load, 3)]));
 
+        // Theme configuration
+        include ROOT_PATH . '/custom/templates/' . $this->_template['name'] . '/template_settings/config.php';
+
+        $this->_smarty->assign(array(
+            'MZ_THEME' => [
+                'darkmode' => $theme['defaultMode'] ?? 1
+            ]
+        ));
+
+        // Styles
+        $customBs = join(DIRECTORY_SEPARATOR, ['assets', 'css', 'bs-custom.css']);
+        $MoozCSS = join(DIRECTORY_SEPARATOR, ['assets', 'css', 'mooz.css']);
 
         $this->addCSSFiles([
-            'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' => [],
+            $this->_template['path'] . $customBs . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, $customBs]))) : '') => [],
+            $this->_template['path'] . $MoozCSS . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, $MoozCSS]))) : '') => [],
             'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css' => [],
-            $this->_template['path'] . 'css/custom.css' . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, 'css/custom.css']))) : '') => [],            
         ]);
 
         $route = (isset($_GET['route']) ? rtrim($_GET['route'], '/') : '/');
 
+        // JSVars
         $JSVariables = [
             'siteName' => Output::getClean(SITE_NAME),
             'siteURL' => URL::build('/'),
@@ -142,8 +137,12 @@ class Mooz_Template extends TemplateBase {
             $this->addJSFiles([
                 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js' => [],
             ]);
+        } else if (PAGE === 'portal') {
+            $this->_smarty->assign(array(
+                'CONTENT_PORTAL' => ($theme['portal']['text'] ?? ''),
+                'PORTAL_ITEM' => ($theme['portal']['nav_item'] ?? null),
+            ));
         }
-
 
         $JSVars = '';
         $i = 0;
@@ -155,10 +154,10 @@ class Mooz_Template extends TemplateBase {
         $this->addJSScript($JSVars);
 
         $this->addJSFiles([
-            $this->_template['path'] . 'js/core/core.js' . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, 'js/core/core.js']))) : '') => [],
-            $this->_template['path'] . 'js/core/user.js' . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, 'js/core/user.js']))) : '') => [],
-            $this->_template['path'] . 'js/core/pages.js' . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, 'js/core/pages.js']))) : '') => [],
-            $this->_template['path'] . 'js/core/mooz.js' . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, 'js/core/mooz.js']))) : '') => [],
+            $this->_template['path'] . 'assets/js/core/core.js' . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, 'assets/js/core/core.js']))) : '') => [],
+            $this->_template['path'] . 'assets/js/core/user.js' . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, 'assets/js/core/user.js']))) : '') => [],
+            $this->_template['path'] . 'assets/js/core/pages.js' . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, 'assets/js/core/pages.js']))) : '') => [],
+            $this->_template['path'] . 'assets/js/core/mooz.js' . ((defined('ZDEV') && ZDEV == true) ? ('?v=' . filemtime(join(DIRECTORY_SEPARATOR, [__DIR__, 'assets/js/core/mooz.js']))) : '') => [],
             'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' => [],
         ]);
 
@@ -169,5 +168,4 @@ class Mooz_Template extends TemplateBase {
 }
 
 $template = new Mooz_Template($cache, $smarty, $language, $user, $pages);
-//$template_pagination = ['div' => 'ui mini pagination menu', 'a' => '{x}item'];
 $template_pagination = ['div' => 'pagination d-inline-flex mb-0', 'a' => 'page-link {x}'];

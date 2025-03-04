@@ -64,6 +64,6 @@ value="{$PAGE_KEYWORDS}"}{else}{assign var="PAGEKEYWORDS" value=" "}{/if}
         {/if}
     </head>
 
-    <body{if $DEFAULT_REVAMP_DARK_MODE} data-bs-theme="dark" {/if} id="page-{if is_numeric($smarty.const.PAGE)}{$TITLE}{else}{$smarty.const.PAGE}{/if}">
+    <body{if $MZ_THEME.darkmode == 1} data-bs-theme="dark" {/if} id="page-{if is_numeric($smarty.const.PAGE)}{$TITLE}{else}{$smarty.const.PAGE}{/if}">
     
     <div id="app-base" class="bg-body-secondary">

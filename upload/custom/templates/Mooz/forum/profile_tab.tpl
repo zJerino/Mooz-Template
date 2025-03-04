@@ -1,5 +1,5 @@
 <div class="bg-body shadow-sm py-3 mb-3 rounded-3 d-flex flex-column">
-    <div class="text-primary text-center rounded-top-3 px-3 fv-small mb-2 fw-bold">
+    <div class="text-primary text-center rounded-top-3 px-3 fv-petite mb-2 fw-bold">
         {$PF_LATEST_POSTS_TITLE}
     </div>
     {if isset($NO_POSTS)}    
@@ -13,12 +13,14 @@
                 </a>
             {/foreach}
         </div>
-        {foreach from=$PF_LATEST_POSTS item=item key=key}
-            <div class="d-none" id="fp-post-{$key}">
-                <div class="d-flex flex-column">
-                    <small class="text-body-secondary">{$item.content}</small>
+        <div class="d-none">
+            {foreach from=$PF_LATEST_POSTS item=item key=key}
+                <div id="fp-post-{$key}">
+                    <div class="d-flex flex-column">
+                        <small class="text-body-secondary">{$item.content}</small>
+                    </div>
                 </div>
-            </div>
-        {/foreach}        
+            {/foreach}
+        </div>        
     {/if}
 </div>

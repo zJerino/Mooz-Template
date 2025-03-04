@@ -1,0 +1,26 @@
+$mz-gradient: 1 !default;
+
+
+@if $mz-gradient == 1 {
+    :root, [data-bs-theme=light] {
+        --mz-gradient: linear-gradient(to right, var(--#{$prefix}primary), var(--#{$prefix}secondary));
+    }
+
+    .text-primary {
+        background-image: var(--mz-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .bg-primary, .text-bg-primary, .btn-primary, .badge-primary, .list-group-item.active, .active>.page-link, .page-link.active {
+        --mz-gradient: linear-gradient(to right, rgba(var(--#{$prefix}primary-rgb), var(--#{$prefix}bg-opacity,1)), rgba(var(--#{$prefix}secondary-rgb), var(--#{$prefix}bg-opacity,1)));
+        background-image: var(--mz-gradient);
+    }    
+}
+
+@keyframes ripple {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+}

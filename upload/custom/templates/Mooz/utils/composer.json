@@ -1,0 +1,19 @@
+{
+    "name": "zjerino/mooz",
+    "type": "project",
+    "require": {
+        "scssphp/scssphp": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zjerino\\Mooz\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "zJerino",
+            "email": "zJerino@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}

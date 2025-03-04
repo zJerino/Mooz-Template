@@ -154,9 +154,9 @@
 
 <script type="text/javascript">
     function statusDarkMode() {
-        let defaultStatus = "{if $DEFAULT_REVAMP_DARK_MODE}dark{else}light{/if}";
+        let defaultStatus = "{if $MZ_THEME.darkmode == 1}dark{else}light{/if}";
 
-        if (window.localStorage.getItem('mz-theme') == undefined) {
+        if (window.localStorage.getItem('mz-theme') != 'dark' || window.localStorage.getItem('mz-theme') != 'light') {
             return defaultStatus;
         } else if (window.localStorage.getItem('mz-theme') == 'dark') {
             return 'dark';
@@ -168,8 +168,10 @@
     function toggleDarkLightMode() {
         $.post("{$DARK_LIGHT_MODE_ACTION}", { token: "{$DARK_LIGHT_MODE_TOKEN}" })
             .done(function (e) {
-                document.body.dataset.bsTheme = (statusDarkMode() == 'light' ? 'dark' : 'light');
-                window.localStorage.setItem('mz-theme', (statusDarkMode() == 'light' ? 'dark' : 'light'));
+                var newStatus = (statusDarkMode() == 'light' ? 'dark' : 'light');
+
+                document.body.dataset.bsTheme = newStatus;
+                window.localStorage.setItem('mz-theme', newStatus);
             });
 
         return false;

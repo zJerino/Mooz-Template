@@ -32,7 +32,7 @@
                     {/foreach}
                 </div>
             {else}
-                <div class="bg-body border-3 border-start border-info d-flex flex-row mb-3 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
+                <div class="bg-body border-3 border-start border-info d-flex flex-row mb-1 mx-2 rounded-3 shadow-sm align-items-center px-3 py-2" id="status-message">
                     <div class="text-info text-center rounded-3 fv-small fw-bold me-3">
                         <i class="bi bi-exclamation-circle-fill fs-2"></i>
                     </div>

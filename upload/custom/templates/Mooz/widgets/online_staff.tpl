@@ -1,5 +1,5 @@
 <div class="bg-body rounded-3 shadow-sm d-flex flex-column mb-3" id="widget-online-staff">
-    <div class="text-primary text-center rounded-top-3 px-3 py-2 fv-small fw-bold">
+    <div class="text-primary text-center rounded-top-3 px-3 py-2 fv-petite fw-bold">
         {$ONLINE_STAFF}
     </div>
     <div class="px-3 mb-2 d-flex flex-column">
